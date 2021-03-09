@@ -1,1 +1,33 @@
+# Anything that goes here is made globally for all profiles.
+spring:
+  application:
+    name: enemycrud
+
+---
+# Anything that goes here is made specifically for dev's profile.
+spring:
+  profiles: dev
+
+---
+# Anything that goes here is made specifically for cloud's profile.
+# Cloud is the default profile that Google Cloud Foundry makes your application use if you do not override it.
+spring:
+  profiles: cloud
+
+---
+# Anything that goes here is made specifically for local's profile.
+spring:
+  profiles: local, default
+server:
+  port: 8080
+
+# Probably unnecessary, get rid of it if so.
+enemyCardsWS:
+  url: http://localhost:8081
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 
