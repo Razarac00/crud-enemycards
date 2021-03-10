@@ -1,6 +1,7 @@
 package com.razarac.enemycrud.entities;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.*;
 
@@ -9,7 +10,7 @@ import lombok.Setter;
 
 @Entity 
 @Table(name = "ENEMY")
-@Getter @Setter
+@Getter @Setter 
 public class EEnemy {
     
     @Id
@@ -52,6 +53,8 @@ public class EEnemy {
     @Column(name = "DESCRIPTION", nullable = false)
     private String description;
 
+    public EEnemy() {}
+
     public EEnemy(Long id, String name, List<EEnemyElement> weaknesses, List<EEnemyElement> resistances, List<EEnemyElement> immunities, String image, String description) {
         this.id = id;
         this.name = name;
@@ -61,5 +64,23 @@ public class EEnemy {
         this.weaknesses = weaknesses;
         this.resistances = resistances;
         this.immunities = immunities;
+    }
+
+    @Override
+    public String toString() {
+        return "Enemy id: " + this.id + " name: " + this.name;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof EEnemy)) return false;
+        EEnemy enemy = (EEnemy) obj;
+        return Objects.equals(this.id, enemy.id);
+    }
+ 
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.id);
     }
 }

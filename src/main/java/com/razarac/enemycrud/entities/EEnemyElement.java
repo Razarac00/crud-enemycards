@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Entity 
 @Table(name = "ENEMYELEMENT")
-@Getter @Setter
+@Getter @Setter 
 public class EEnemyElement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,9 +26,11 @@ public class EEnemyElement {
     @Column(name = "ENEMIES")
     private List<EEnemy> resistEnemies;   
 
-    @ManyToMany(mappedBy = "weaknesses") 
+    @ManyToMany(mappedBy = "immunities") 
     @Column(name = "ENEMIES")
     private List<EEnemy> immuneEnemies;
+
+    public EEnemyElement() {}
 
     public EEnemyElement(Long id, String name) {
         this.id = id;

@@ -23,6 +23,7 @@ server:
   error:
     include-message: always
 
+---
 # h2 connection
 spring:
   jpa:
