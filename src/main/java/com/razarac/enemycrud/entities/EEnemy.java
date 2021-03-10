@@ -68,7 +68,7 @@ public class EEnemy {
 
     @Override
     public String toString() {
-        return "Enemy id: " + this.id + " name: " + this.name;
+        return "Enemy id: " + getId() + " name: " + getName();
     }
 
     @Override
@@ -76,11 +76,11 @@ public class EEnemy {
         if (this == obj) return true;
         if (!(obj instanceof EEnemy)) return false;
         EEnemy enemy = (EEnemy) obj;
-        return Objects.equals(this.id, enemy.id);
+        return Objects.equals(getId(), enemy.id);
     }
  
     @Override
     public int hashCode() {
-        return Objects.hash(this.id);
+        return Objects.hash(getId());
     }
 }

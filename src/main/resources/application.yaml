@@ -36,7 +36,7 @@ spring:
   datasource:
     url: jdbc:h2:mem:localdb
     username: sa
-    password: password
+    password: AnEx@mplePassw0rd4U
     driverClassName: org.h2.Driver
 
 # Probably unnecessary, get rid of it if so.
