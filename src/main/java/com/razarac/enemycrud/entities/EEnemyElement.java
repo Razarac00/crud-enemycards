@@ -18,17 +18,28 @@ public class EEnemyElement {
     @Column(name = "NAME", nullable = false)
     private String name;
 
-    @ManyToMany @Column(name = "ENEMIES")
-    private List<EEnemy> enemies;
+    @ManyToMany(mappedBy = "weaknesses") 
+    @Column(name = "ENEMIES")
+    private List<EEnemy> weakEnemies;
+
+    @ManyToMany(mappedBy = "resistances") 
+    @Column(name = "ENEMIES")
+    private List<EEnemy> resistEnemies;   
+
+    @ManyToMany(mappedBy = "weaknesses") 
+    @Column(name = "ENEMIES")
+    private List<EEnemy> immuneEnemies;
 
     public EEnemyElement(Long id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public EEnemyElement(Long id, String name, List<EEnemy> enemies) {
+    public EEnemyElement(Long id, String name, List<EEnemy> weakEnemies, List<EEnemy> resistEnemies, List<EEnemy> immuneEnemies) {
         this.id = id;
         this.name = name;
-        this.enemies = enemies;
+        this.weakEnemies = weakEnemies;
+        this.resistEnemies = resistEnemies;
+        this.immuneEnemies = immuneEnemies;
     }
 }

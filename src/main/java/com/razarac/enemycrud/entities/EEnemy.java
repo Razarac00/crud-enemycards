@@ -19,11 +19,31 @@ public class EEnemy {
     @Column(name = "NAME", nullable = false)
     private String name;
 
-    @ManyToMany @Column(name = "WEAKNESSES", nullable = false)
+    @ManyToMany(cascade = CascadeType.PERSIST) 
+    @Column(name = "WEAKNESSES")
+    @JoinTable(
+        name = "ENEMYELEMENT_WEAK",
+        joinColumns = @JoinColumn(name = "ENEMY_ID"),
+        inverseJoinColumns = @JoinColumn(name = "ELEMENT_ID")
+    )
     private List<EEnemyElement> weaknesses;
-    @ManyToMany @Column(name = "RESISTANCES", nullable = false)
+
+    @ManyToMany(cascade = CascadeType.PERSIST) 
+    @Column(name = "RESISTANCES")
+    @JoinTable(
+        name = "ENEMYELEMENT_RESIST",
+        joinColumns = @JoinColumn(name = "ENEMY_ID"),
+        inverseJoinColumns = @JoinColumn(name = "ELEMENT_ID")
+    )
     private List<EEnemyElement> resistances;
-    @ManyToMany @Column(name = "IMMUNITIES", nullable = false)
+
+    @ManyToMany(cascade = CascadeType.PERSIST) 
+    @Column(name = "IMMUNITIES")
+    @JoinTable(
+        name = "ENEMYELEMENT_IMMUNE",
+        joinColumns = @JoinColumn(name = "ENEMY_ID"),
+        inverseJoinColumns = @JoinColumn(name = "ELEMENT_ID")
+    )
     private List<EEnemyElement> immunities;
     
     @Column(name = "IMAGE", nullable = false)
