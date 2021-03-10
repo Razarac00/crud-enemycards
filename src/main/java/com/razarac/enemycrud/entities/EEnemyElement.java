@@ -7,16 +7,18 @@ import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity @Getter @Setter
+@Entity 
+@Table(name = "ENEMYELEMENT")
+@Getter @Setter
 public class EEnemyElement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(nullable = false)
+    @Column(name = "NAME", nullable = false)
     private String name;
 
-    @ManyToMany
+    @ManyToMany @Column(name = "ENEMIES")
     private List<EEnemy> enemies;
 
     public EEnemyElement(Long id, String name) {

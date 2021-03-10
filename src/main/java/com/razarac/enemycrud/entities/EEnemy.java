@@ -7,27 +7,29 @@ import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity @Getter @Setter
+@Entity 
+@Table(name = "ENEMY")
+@Getter @Setter
 public class EEnemy {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "NAME", nullable = false)
     private String name;
 
-    @ManyToMany @Column(nullable = false)
+    @ManyToMany @Column(name = "WEAKNESSES", nullable = false)
     private List<EEnemyElement> weaknesses;
-    @ManyToMany @Column(nullable = false)
+    @ManyToMany @Column(name = "RESISTANCES", nullable = false)
     private List<EEnemyElement> resistances;
-    @ManyToMany @Column(nullable = false)
+    @ManyToMany @Column(name = "IMMUNITIES", nullable = false)
     private List<EEnemyElement> immunities;
     
-    @Column(nullable = false)
+    @Column(name = "IMAGE", nullable = false)
     private String image;
     
-    @Column(nullable = false)
+    @Column(name = "DESCRIPTION", nullable = false)
     private String description;
 
     public EEnemy(Long id, String name, List<EEnemyElement> weaknesses, List<EEnemyElement> resistances, List<EEnemyElement> immunities, String image, String description) {
