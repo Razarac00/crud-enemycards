@@ -2,8 +2,6 @@ package com.razarac.enemycrud.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.description;
 
 import java.util.List;
 
