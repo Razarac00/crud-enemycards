@@ -1,7 +1,7 @@
 package com.razarac.enemycrud.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+// import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.List;
 
@@ -27,8 +27,8 @@ public class EnemyCrudRepositoryIT {
 
     @AfterEach
     public void teardown() {
-        enemyCrudRepository.deleteAll();
-        elementCrudRepository.deleteAll();
+        enemyCrudRepository.deleteAllInBatch();
+        elementCrudRepository.deleteAllInBatch();
     }
 
     @Test
@@ -69,32 +69,34 @@ public class EnemyCrudRepositoryIT {
 
     }
 
-    @Test
-    public void build_ReturnsNullId_WhenAttemptingToSaveDuplicate() {
-        // Arrange
-        List<EEnemyElement> weaknesses = List.of(new EEnemyElement(11L, "Lightning"), new EEnemyElement(112L, "Dark"));
-        List<EEnemyElement> resistances = List.of(new EEnemyElement(33L, "Fire"));
-        List<EEnemyElement> immunities = List.of(new EEnemyElement(44L, "Poison"), new EEnemyElement(55L, "Toxic"));
+    // @Test
+    // public void build_ReturnsNullId_WhenAttemptingToSaveDuplicate() {
+    //     // Arrange
+    //     List<EEnemyElement> weaknesses = List.of(new EEnemyElement(11L, "Lightning"), new EEnemyElement(112L, "Dark"));
+    //     List<EEnemyElement> resistances = List.of(new EEnemyElement(33L, "Fire"));
+    //     List<EEnemyElement> immunities = List.of(new EEnemyElement(44L, "Poison"), new EEnemyElement(55L, "Toxic"));
 
-        String name = "Burnt Ivory King";
-        String image = "https://darksouls2.wiki.fextralife.com/file/Dark-Souls-2/burnt_ivory_king.png";
-        String description = "Watch out for his thrust attack and magic extendo blade.";
+    //     String name = "Burnt Ivory King";
+    //     String image = "https://darksouls2.wiki.fextralife.com/file/Dark-Souls-2/burnt_ivory_king.png";
+    //     String description = "Watch out for his thrust attack and magic extendo blade.";
 
-        EEnemy enemy = EEnemy.builder().name(name)
-        .description(description).image(image).weaknesses(weaknesses)
-        .resistances(resistances).immunities(immunities).build();
-        // Act
-        elementCrudRepository.saveAll(weaknesses);
-        elementCrudRepository.saveAll(resistances);
-        elementCrudRepository.saveAll(immunities);
-        enemyCrudRepository.save(enemy);
+    //     EEnemy enemy = EEnemy.builder().name(name)
+    //     .description(description).image(image).weaknesses(weaknesses)
+    //     .resistances(resistances).immunities(immunities).build();
+    //     // Act
+    //     elementCrudRepository.saveAll(weaknesses);
+    //     elementCrudRepository.saveAll(resistances);
+    //     elementCrudRepository.saveAll(immunities);
+    //     enemyCrudRepository.save(enemy);
 
-        EEnemy duplicate = EEnemy.builder().name(name)
-        .description(description).image(image).weaknesses(weaknesses)
-        .resistances(resistances).immunities(immunities).build();
+    //     // elementCrudRepository.
 
-        // Assert
-        assertNull(duplicate.getId());
-    }
+    //     EEnemy duplicate = EEnemy.builder().name(name)
+    //     .description(description).image(image).weaknesses(enemy.getWeaknesses())
+    //     .resistances(enemy.getResistances()).immunities(enemy.getImmunities()).build();
+
+    //     // Assert
+    //     assertNull(duplicate.getId());
+    // }
 
 }
