@@ -20,8 +20,12 @@ public class EEnemyElement {
     @Column(name = "NAME", nullable = false, unique = true)
     private String name;
 
-    @ManyToMany(cascade = CascadeType.ALL) 
-    @Column(name = "ENEMIES")
+    @ManyToMany(fetch = FetchType.LAZY,
+        cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+        }) 
+    @Column(name = "WEAKENEMIES")
     @JoinTable(
         name = "ENEMYELEMENT_WEAK",
         joinColumns = @JoinColumn(name = "ENEMY_ID"),
@@ -29,8 +33,12 @@ public class EEnemyElement {
     )
     private List<EEnemy> weakEnemies;
 
-    @ManyToMany(cascade = CascadeType.ALL) 
-    @Column(name = "ENEMIES")
+    @ManyToMany(fetch = FetchType.LAZY,
+        cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+        }) 
+    @Column(name = "RESISTENEMIES")
     @JoinTable(
         name = "ENEMYELEMENT_RESIST",
         joinColumns = @JoinColumn(name = "ENEMY_ID"),
@@ -38,8 +46,12 @@ public class EEnemyElement {
     )
     private List<EEnemy> resistEnemies;   
 
-    @ManyToMany(cascade = CascadeType.ALL) 
-    @Column(name = "ENEMIES")
+    @ManyToMany(fetch = FetchType.LAZY,
+        cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+        }) 
+    @Column(name = "IMMUNEENEMIES")
     @JoinTable(
         name = "ENEMYELEMENT_IMMUNE",
         joinColumns = @JoinColumn(name = "ENEMY_ID"),

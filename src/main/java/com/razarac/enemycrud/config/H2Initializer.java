@@ -22,7 +22,14 @@ public class H2Initializer implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        // TODO Auto-generated method stub
+        // ------------------------------------------------------ //
+        // ---------------- DARK SOULS ELEMENTS ----------------- //
+        // ------------------------------------------------------ //
+        List<String> elementNames = List.of("Magic", "Fire", "Lightning", "None", "Dark", "Poison", "Toxic", "Standard", "Strike", "Thrust", "Slash");
+        // Add special weapons for ds2/ds3 stuff here
+        // elementNames.addAll(List.of("", ""));
+        List<EEnemyElement> elements = buildElements(elementNames);
+        elementCrudRepository.saveAll(elements);
         
     }
 
@@ -31,6 +38,13 @@ public class H2Initializer implements ApplicationRunner {
         elementCrudRepository.saveAll(enemy.getResistances());
         elementCrudRepository.saveAll(enemy.getImmunities());
         enemyCrudRepository.save(enemy);
+    }
+
+    private EEnemy buildEnemy(EEnemy enemy, List<String> weak, List<String> resist, List<String> immune) {
+        for (String elementName : immune) {
+            elementCrudRepository.findByName(elementName);
+        }
+        return enemy;
     }
 
     private List<EEnemyElement> buildElements(List<String> elements) {

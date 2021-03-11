@@ -21,15 +21,30 @@ public class EEnemy {
     @Column(name = "NAME", nullable = false, unique = true)
     private String name;
 
-    @ManyToMany(mappedBy = "weakEnemies")
+    @ManyToMany(fetch = FetchType.LAZY,
+        cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+        }, 
+        mappedBy = "weakEnemies")
     @Column(name = "WEAKNESSES")
     private List<EEnemyElement> weaknesses;
 
-    @ManyToMany(mappedBy = "resistEnemies") 
+    @ManyToMany(fetch = FetchType.LAZY,
+        cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+        }, 
+        mappedBy = "resistEnemies") 
     @Column(name = "RESISTANCES")
     private List<EEnemyElement> resistances;
 
-    @ManyToMany(mappedBy = "immuneEnemies") 
+    @ManyToMany(fetch = FetchType.LAZY,
+        cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+        }, 
+        mappedBy = "immuneEnemies") 
     @Column(name = "IMMUNITIES")
     private List<EEnemyElement> immunities;
     
