@@ -5,12 +5,13 @@ import java.util.Objects;
 
 import javax.persistence.*;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity 
 @Table(name = "ENEMY")
-@Getter @Setter 
+@Getter @Setter @Builder
 public class EEnemy {
     
     @Id
