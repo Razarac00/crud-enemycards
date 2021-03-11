@@ -18,34 +18,19 @@ public class EEnemy {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "NAME", nullable = false)
+    @Column(name = "NAME", nullable = false, unique = true)
     private String name;
 
-    @ManyToMany(cascade = CascadeType.PERSIST) 
+    @ManyToMany(mappedBy = "weakEnemies")
     @Column(name = "WEAKNESSES")
-    @JoinTable(
-        name = "ENEMYELEMENT_WEAK",
-        joinColumns = @JoinColumn(name = "ENEMY_ID"),
-        inverseJoinColumns = @JoinColumn(name = "ELEMENT_ID")
-    )
     private List<EEnemyElement> weaknesses;
 
-    @ManyToMany(cascade = CascadeType.PERSIST) 
+    @ManyToMany(mappedBy = "resistEnemies") 
     @Column(name = "RESISTANCES")
-    @JoinTable(
-        name = "ENEMYELEMENT_RESIST",
-        joinColumns = @JoinColumn(name = "ENEMY_ID"),
-        inverseJoinColumns = @JoinColumn(name = "ELEMENT_ID")
-    )
     private List<EEnemyElement> resistances;
 
-    @ManyToMany(cascade = CascadeType.PERSIST) 
+    @ManyToMany(mappedBy = "immuneEnemies") 
     @Column(name = "IMMUNITIES")
-    @JoinTable(
-        name = "ENEMYELEMENT_IMMUNE",
-        joinColumns = @JoinColumn(name = "ENEMY_ID"),
-        inverseJoinColumns = @JoinColumn(name = "ELEMENT_ID")
-    )
     private List<EEnemyElement> immunities;
     
     @Column(name = "IMAGE", nullable = false)

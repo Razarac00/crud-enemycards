@@ -33,11 +33,6 @@ public class H2Initializer implements ApplicationRunner {
         enemyCrudRepository.save(enemy);
     }
 
-    private EEnemy buildEnemy(String name, List<EEnemyElement> weaknesses, List<EEnemyElement> resistances, List<EEnemyElement> immunities, String image, String description) {
-        EEnemy enemy = EEnemy.builder().name(name).weaknesses(weaknesses).resistances(resistances).immunities(immunities).image(image).description(description).build();
-        return enemy;
-    }
-
     private List<EEnemyElement> buildElements(List<String> elements) {
         List<EEnemyElement> result = Collections.<EEnemyElement> emptyList();
 
@@ -45,7 +40,7 @@ public class H2Initializer implements ApplicationRunner {
             EEnemyElement element = EEnemyElement.builder().name(name).build();
             result.add(element);
         }
-        
+
         return result;
     }
     
