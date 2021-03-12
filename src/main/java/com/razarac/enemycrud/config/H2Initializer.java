@@ -171,6 +171,50 @@ public class H2Initializer implements ApplicationRunner {
 
         saveEnemy(buildEnemy(enemy, weak, resist, immune));
 
+        /* GREAT GREY WOLF SIF */
+        name = "Great Grey Wolf Sif";
+        image = "http://darksouls.wikidot.com/local--files/npcs/sif-the-great-grey-wolf-large.jpg";
+        description = "I won\'t ask why you\'re killing the dog. Melee builds get under him, Ranged builds kite and time your shots.";
+        weak = List.of("None");
+        resist = List.of("None");
+        immune = List.of("None");
+        enemy = EEnemy.builder().name(name).description(description).image(image).build();
+
+        saveEnemy(buildEnemy(enemy, weak, resist, immune));
+
+        /* GWYN LORD OF CINDER */
+        name = "Gwyn Lord of Cinder";
+        image = "https://cdn.jwplayer.com/v2/media/gVp051iT/poster.jpg?width=720";
+        description = "Learn his moves. Do not hesitate, do not panic. He is fast.";
+        weak = List.of("Parry");
+        resist = List.of("Lightning");
+        immune = List.of("None");
+        enemy = EEnemy.builder().name(name).description(description).image(image).build();
+
+        saveEnemy(buildEnemy(enemy, weak, resist, immune));
+
+        /* IRON GOLEM */
+        name = "Iron Golem";
+        image = "http://darksouls.wikidot.com/local--files/bosses/iron-golem.jpg";
+        description = "Kill the firebombing giant first. Other than that, go for the legs until you can go for the head, or ledge him.";
+        weak = List.of("Ledge");
+        resist = List.of("None");
+        immune = List.of("None");
+        enemy = EEnemy.builder().name(name).description(description).image(image).build();
+
+        saveEnemy(buildEnemy(enemy, weak, resist, immune));
+
+        /* MOONLIGHT BUTTERFLY */
+        name = "Moonlight Butterfly";
+        image = "https://i.redd.it/3uerx40y4wr51.jpg";
+        description = "Expect a ranged fight unless you keep it in front of you as much as possible. Then it may land and you can melee.";
+        weak = List.of("Magic", "Lightning", "Fire");
+        resist = List.of("None");
+        immune = List.of("Poison", "Toxic", "Bleed");
+        enemy = EEnemy.builder().name(name).description(description).image(image).build();
+
+        saveEnemy(buildEnemy(enemy, weak, resist, immune));
+
     }
 
     private void saveEnemy(EEnemy enemy) {
