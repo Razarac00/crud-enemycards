@@ -1,5 +1,6 @@
 package com.razarac.enemycrud.config;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,9 +26,14 @@ public class H2Initializer implements ApplicationRunner {
         // ------------------------------------------------------ //
         // ---------------- DARK SOULS ELEMENTS ----------------- //
         // ------------------------------------------------------ //
-        List<String> elementNames = List.of("Magic", "Fire", "Lightning", "None", "Dark", "Poison", "Toxic", "Standard", "Strike", "Thrust", "Slash");
+        List<String> elementNames = new ArrayList<String>();
+        elementNames.addAll(List.of("Magic", "Fire", "Lightning", "None", "Dark", "Poison", "Toxic", "Standard", "Strike", "Thrust", "Slash"));
+
         // Add special weapons/items/cheese stuff here
-        elementNames.addAll(List.of("Ledge", "Backstab", "Parry", "Bracelets", "Farron Greatsword"));
+        var specialNames = new ArrayList<String>();
+        specialNames.addAll(List.of("Ledge", "Backstab", "Parry", "Bracelets", "Farron Greatsword"));
+
+        elementNames.addAll(specialNames);
 
         List<EEnemyElement> elements = buildElements(elementNames);
         elementCrudRepository.saveAll(elements);
@@ -72,11 +78,20 @@ public class H2Initializer implements ApplicationRunner {
         // elementCrudRepository.saveAll(enemy.getWeaknesses());
         // elementCrudRepository.saveAll(enemy.getResistances());
         // elementCrudRepository.saveAll(enemy.getImmunities());
+        for (EEnemyElement element : enemy.getWeaknesses()) {
+            element.getWeakEnemies().add(enemy);
+        }
+        for (EEnemyElement element : enemy.getResistances()) {
+            element.getResistEnemies().add(enemy);
+        }
+        for (EEnemyElement element : enemy.getImmunities()) {
+            element.getImmuneEnemies().add(enemy);
+        }
         enemyCrudRepository.save(enemy);
     }
 
     private EEnemy buildEnemy(EEnemy enemy, List<String> weak, List<String> resist, List<String> immune) {
-        List<EEnemyElement> result = Collections.<EEnemyElement> emptyList();
+        ArrayList<EEnemyElement> result = new ArrayList<EEnemyElement>();
 
         for (String elementName : weak) {
             result.addAll(elementCrudRepository.findByName(elementName));
@@ -98,10 +113,14 @@ public class H2Initializer implements ApplicationRunner {
     }
 
     private List<EEnemyElement> buildElements(List<String> elements) {
-        List<EEnemyElement> result = Collections.<EEnemyElement> emptyList();
+        List<EEnemyElement> result = new ArrayList<EEnemyElement>(); //Collections.<EEnemyElement> emptyList();
 
         for (String name : elements) {
-            EEnemyElement element = EEnemyElement.builder().name(name).build();
+            EEnemyElement element = EEnemyElement.builder().name(name).build(); 
+            element.setWeakEnemies(new ArrayList<EEnemy>());
+            element.setResistEnemies(new ArrayList<EEnemy>());
+            element.setImmuneEnemies(new ArrayList<EEnemy>());
+            
             result.add(element);
         }
 
