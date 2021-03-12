@@ -75,9 +75,6 @@ public class H2Initializer implements ApplicationRunner {
     }
 
     private void saveEnemy(EEnemy enemy) {
-        // elementCrudRepository.saveAll(enemy.getWeaknesses());
-        // elementCrudRepository.saveAll(enemy.getResistances());
-        // elementCrudRepository.saveAll(enemy.getImmunities());
         for (EEnemyElement element : enemy.getWeaknesses()) {
             element.getWeakEnemies().add(enemy);
         }
@@ -91,7 +88,7 @@ public class H2Initializer implements ApplicationRunner {
     }
 
     private EEnemy buildEnemy(EEnemy enemy, List<String> weak, List<String> resist, List<String> immune) {
-        ArrayList<EEnemyElement> result = new ArrayList<EEnemyElement>();
+        List<EEnemyElement> result = new ArrayList<EEnemyElement>();
 
         for (String elementName : weak) {
             result.addAll(elementCrudRepository.findByName(elementName));
@@ -113,7 +110,7 @@ public class H2Initializer implements ApplicationRunner {
     }
 
     private List<EEnemyElement> buildElements(List<String> elements) {
-        List<EEnemyElement> result = new ArrayList<EEnemyElement>(); //Collections.<EEnemyElement> emptyList();
+        List<EEnemyElement> result = new ArrayList<EEnemyElement>(); 
 
         for (String name : elements) {
             EEnemyElement element = EEnemyElement.builder().name(name).build(); 
