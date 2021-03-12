@@ -57,6 +57,20 @@ public class EnemyCrudRepositoryIT {
         elementCrudRepository.saveAll(weaknesses);
         elementCrudRepository.saveAll(resistances);
         elementCrudRepository.saveAll(immunities);
+
+        for (EEnemyElement element : enemy.getWeaknesses()) {
+            element.setWeakEnemies(new ArrayList<EEnemy>());
+            element.getWeakEnemies().add(enemy);
+        }
+        for (EEnemyElement element : enemy.getResistances()) {
+            element.setResistEnemies(new ArrayList<EEnemy>());
+            element.getResistEnemies().add(enemy);
+        }
+        for (EEnemyElement element : enemy.getImmunities()) {
+            element.setImmuneEnemies(new ArrayList<EEnemy>());
+            element.getImmuneEnemies().add(enemy);
+        }
+
         enemyCrudRepository.save(enemy);
 
         List<EEnemy> actual = enemyCrudRepository.findAll();
