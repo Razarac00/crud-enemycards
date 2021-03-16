@@ -1,33 +1,62 @@
 package com.razarac.enemycrud.entities;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.*;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity 
 @Table(name = "ENEMYELEMENT")
-@Getter @Setter 
+@Getter @Setter @Builder
 public class EEnemyElement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(name = "NAME", nullable = false)
+    @Column(name = "NAME", nullable = false, unique = true)
     private String name;
 
-    @ManyToMany(mappedBy = "weaknesses") 
-    @Column(name = "ENEMIES")
+    @ManyToMany(fetch = FetchType.LAZY,
+        cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+        }) 
+    @Column(name = "WEAKENEMIES")
+    @JoinTable(
+        name = "ENEMYELEMENT_WEAK",
+        joinColumns = @JoinColumn(name = "ENEMY_ID"),
+        inverseJoinColumns = @JoinColumn(name = "ELEMENT_ID")
+    )
     private List<EEnemy> weakEnemies;
 
-    @ManyToMany(mappedBy = "resistances") 
-    @Column(name = "ENEMIES")
+    @ManyToMany(fetch = FetchType.LAZY,
+        cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+        }) 
+    @Column(name = "RESISTENEMIES")
+    @JoinTable(
+        name = "ENEMYELEMENT_RESIST",
+        joinColumns = @JoinColumn(name = "ENEMY_ID"),
+        inverseJoinColumns = @JoinColumn(name = "ELEMENT_ID")
+    )
     private List<EEnemy> resistEnemies;   
 
-    @ManyToMany(mappedBy = "immunities") 
-    @Column(name = "ENEMIES")
+    @ManyToMany(fetch = FetchType.LAZY,
+        cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+        }) 
+    @Column(name = "IMMUNEENEMIES")
+    @JoinTable(
+        name = "ENEMYELEMENT_IMMUNE",
+        joinColumns = @JoinColumn(name = "ENEMY_ID"),
+        inverseJoinColumns = @JoinColumn(name = "ELEMENT_ID")
+    )
     private List<EEnemy> immuneEnemies;
 
     public EEnemyElement() {}
@@ -43,5 +72,23 @@ public class EEnemyElement {
         this.weakEnemies = weakEnemies;
         this.resistEnemies = resistEnemies;
         this.immuneEnemies = immuneEnemies;
+    }
+
+    @Override
+    public String toString() {
+        return "Element id: " + getId() + " name: " + getName();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof EEnemyElement)) return false;
+        EEnemyElement element = (EEnemyElement) obj;
+        return Objects.equals(getId(), element.id);
+    }
+ 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 }

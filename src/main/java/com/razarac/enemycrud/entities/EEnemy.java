@@ -5,46 +5,47 @@ import java.util.Objects;
 
 import javax.persistence.*;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity 
 @Table(name = "ENEMY")
-@Getter @Setter 
+@Getter @Setter @Builder
 public class EEnemy {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "NAME", nullable = false)
+    @Column(name = "NAME", nullable = false, unique = true)
     private String name;
 
-    @ManyToMany(cascade = CascadeType.PERSIST) 
+    @ManyToMany(fetch = FetchType.LAZY,
+        cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+        }, 
+        mappedBy = "weakEnemies")
     @Column(name = "WEAKNESSES")
-    @JoinTable(
-        name = "ENEMYELEMENT_WEAK",
-        joinColumns = @JoinColumn(name = "ENEMY_ID"),
-        inverseJoinColumns = @JoinColumn(name = "ELEMENT_ID")
-    )
     private List<EEnemyElement> weaknesses;
 
-    @ManyToMany(cascade = CascadeType.PERSIST) 
+    @ManyToMany(fetch = FetchType.LAZY,
+        cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+        }, 
+        mappedBy = "resistEnemies") 
     @Column(name = "RESISTANCES")
-    @JoinTable(
-        name = "ENEMYELEMENT_RESIST",
-        joinColumns = @JoinColumn(name = "ENEMY_ID"),
-        inverseJoinColumns = @JoinColumn(name = "ELEMENT_ID")
-    )
     private List<EEnemyElement> resistances;
 
-    @ManyToMany(cascade = CascadeType.PERSIST) 
+    @ManyToMany(fetch = FetchType.LAZY,
+        cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+        }, 
+        mappedBy = "immuneEnemies") 
     @Column(name = "IMMUNITIES")
-    @JoinTable(
-        name = "ENEMYELEMENT_IMMUNE",
-        joinColumns = @JoinColumn(name = "ENEMY_ID"),
-        inverseJoinColumns = @JoinColumn(name = "ELEMENT_ID")
-    )
     private List<EEnemyElement> immunities;
     
     @Column(name = "IMAGE", nullable = false)
