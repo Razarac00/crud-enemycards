@@ -54,7 +54,7 @@ public class H2Initializer implements ApplicationRunner {
         name = "Asylum Demon";
         image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGuSM9kU9gkhj3qTm7sRCpY7NAJ3nIRA3fkw&usqp=CAU";
         description = "Either run through the door on the left to fight it later, or attack without locking on.";
-        weak = List.of("Fire", "Bleed");
+        weak = List.of("Fire", "Bleed", "Poison", "Toxic");
         resist = List.of("None");
         immune = List.of("None");
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
@@ -65,8 +65,8 @@ public class H2Initializer implements ApplicationRunner {
         name = "Bell Gargoyle";
         image = "https://i.pinimg.com/originals/7e/f5/04/7ef5043586728dc2bdf39d957bf84760.jpg";
         description = "There are two. Cut off the tail of one of them.";
-        weak = List.of("Fire, Lightning");
-        resist = List.of("None");
+        weak = List.of("Fire, Lightning", "Poison", "Toxic");
+        resist = List.of("Bleed");
         immune = List.of("None");
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
@@ -76,7 +76,7 @@ public class H2Initializer implements ApplicationRunner {
         name = "Capra Demon";
         image = "https://i.pinimg.com/originals/df/ba/de/dfbade1cf0472d71ded6141668327d6a.jpg";
         description = "Focus entirely on killing the dogs, then deal with the demon. Careful at the back, it\'s hard to see.";
-        weak = List.of("Fire", "Plunge Attack");
+        weak = List.of("Fire", "Plunge Attack", "Poison", "Toxic");
         resist = List.of("None");
         immune = List.of("None");
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
@@ -98,7 +98,7 @@ public class H2Initializer implements ApplicationRunner {
         name = "Centipede Demon";
         image = "https://static1.thegamerimages.com/wordpress/wp-content/uploads/2020/06/Centipede-Demon.jpg?q=50&fit=crop&w=740&h=370";
         description = "Cut off the tail to get the Orange Charred Ring and beat him up, or expect to use a bow or magic.";
-        weak = List.of("Magic, Lightning");
+        weak = List.of("Magic, Lightning", "Poison", "Toxic");
         resist = List.of("Fire");
         immune = List.of("None");
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
@@ -110,7 +110,7 @@ public class H2Initializer implements ApplicationRunner {
         image = "http://soulslore.wdfiles.com/local--resized-images/data:chaos-witch-quelaag/2015-09-24_00082.jpg/medium.jpg";
         description = "Lots of fire moves, be careful of the lava as it lingers and the explosion AOE. Hit the female body to stagger her.";
         weak = List.of("Lightning");
-        resist = List.of("None");
+        resist = List.of("Poison");
         immune = List.of("Fire");
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
@@ -120,7 +120,7 @@ public class H2Initializer implements ApplicationRunner {
         name = "Crossbreed Priscilla";
         image = "http://soulslore.wdfiles.com/local--resized-images/data:crossbreed-priscilla/Untitled-1.jpg/medium.jpg";
         description = "She turns invisible if you hurt her (a sin btw). Cut off her tail asap. Look for footprints and attack there. Avoid OHKO moves as that softlocks the game.";
-        weak = List.of("Poison");
+        weak = List.of("Poison", "Toxic");
         resist = List.of("None");
         immune = List.of("None");
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
@@ -142,7 +142,7 @@ public class H2Initializer implements ApplicationRunner {
         name = "Demon Firesage";
         image = "https://static.wikia.nocookie.net/darksouls/images/a/aa/Demon_Firesage.jpg/revision/latest?cb=20160608105549";
         description = "Asylum Demon but red tbh. Staying behind him is the name of the game.";
-        weak = List.of("Magic", "Bleed");
+        weak = List.of("Magic", "Bleed", "Poison", "Toxic");
         resist = List.of("None");
         immune = List.of("None");
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
@@ -165,7 +165,7 @@ public class H2Initializer implements ApplicationRunner {
         image = "http://darksouls.wikidot.com/local--files/bosses/gaping-dragon-large.jpg";
         description = "Sprinting and rolling is good here. Avoid the acid. Kill the Channeler before starting this fight. Cut the tail.";
         weak = List.of("None");
-        resist = List.of("None");
+        resist = List.of("Poison");
         immune = List.of("None");
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
@@ -175,7 +175,7 @@ public class H2Initializer implements ApplicationRunner {
         name = "Great Grey Wolf Sif";
         image = "http://darksouls.wikidot.com/local--files/npcs/sif-the-great-grey-wolf-large.jpg";
         description = "I won\'t ask why you\'re killing the dog. Melee builds get under him, Ranged builds kite and time your shots.";
-        weak = List.of("None");
+        weak = List.of("Poison");
         resist = List.of("None");
         immune = List.of("None");
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
@@ -187,7 +187,7 @@ public class H2Initializer implements ApplicationRunner {
         image = "https://cdn.jwplayer.com/v2/media/gVp051iT/poster.jpg?width=720";
         description = "Learn his moves. Do not hesitate, do not panic. He is fast.";
         weak = List.of("Parry");
-        resist = List.of("Lightning");
+        resist = List.of("Lightning", "Bleed");
         immune = List.of("None");
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
@@ -199,7 +199,7 @@ public class H2Initializer implements ApplicationRunner {
         description = "Kill the firebombing giant first. Other than that, go for the legs until you can go for the head, or ledge him.";
         weak = List.of("Ledge");
         resist = List.of("None");
-        immune = List.of("None");
+        immune = List.of("Poison", "Toxic");
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
         saveEnemy(buildEnemy(enemy, weak, resist, immune));
@@ -211,6 +211,39 @@ public class H2Initializer implements ApplicationRunner {
         weak = List.of("Magic", "Lightning", "Fire");
         resist = List.of("None");
         immune = List.of("Poison", "Toxic", "Bleed");
+        enemy = EEnemy.builder().name(name).description(description).image(image).build();
+
+        saveEnemy(buildEnemy(enemy, weak, resist, immune));
+
+        /* NITO */
+        name = "Nito";
+        image = "https://static.wikia.nocookie.net/darksouls/images/6/63/Nito_intro.jpg/revision/latest/top-crop/width/220/height/220?cb=20130206001123";
+        description = "Easily strafed. Either stay out of aggro range of his skeleton minions, or kill em with divine weapons.";
+        weak = List.of("Fire");
+        resist = List.of("None");
+        immune = List.of("Poison", "Toxic");
+        enemy = EEnemy.builder().name(name).description(description).image(image).build();
+
+        saveEnemy(buildEnemy(enemy, weak, resist, immune));
+
+        /* ORNSTEIN AND SMOUGH */
+        name = "Ornstein and Smough";
+        image = "https://i.ytimg.com/vi/ywoEbgdDfqI/maxresdefault.jpg";
+        description = "You\'re gonna have to get good. Use the pillars. Kill the 1 you don\'t want to fight twice first.";
+        weak = List.of("Fire", "Poison", "Toxic");
+        resist = List.of("None");
+        immune = List.of("None");
+        enemy = EEnemy.builder().name(name).description(description).image(image).build();
+
+        saveEnemy(buildEnemy(enemy, weak, resist, immune));
+
+        /* PINWHEEL */
+        name = "Pinwheel";
+        image = "https://static.wikia.nocookie.net/darksouls/images/2/2f/Pinwheel_Ingame.jpg/revision/latest/top-crop/width/300/height/300?cb=20160614065326";
+        description = "Just kill it? Not hard.";
+        weak = List.of("None");
+        resist = List.of("None");
+        immune = List.of("None");
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
         saveEnemy(buildEnemy(enemy, weak, resist, immune));
