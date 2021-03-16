@@ -292,6 +292,52 @@ public class H2Initializer implements ApplicationRunner {
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
         saveEnemy(buildEnemy(enemy, weak, resist, immune));
+
+        // ----------------- DARK SOULS ONE DLC ----------------- //
+
+        /* ARTORIAS THE ABYSSWALKER */
+        name = "Artorias the Abysswalker";
+        image = "http://darksouls.wikidot.com/local--files/bosses/knight-artorias-large.jpg";
+        description = "Time your dodges, keep distance, and be careful when he buffs himself. Don\'t get greedy--Artorias controls tha pace of this fight, not you.";
+        weak = List.of("None");
+        resist = List.of("None");
+        immune = List.of("Poison", "Toxic");
+        enemy = EEnemy.builder().name(name).description(description).image(image).build();
+
+        saveEnemy(buildEnemy(enemy, weak, resist, immune));
+
+        /* BLACK DRAGON KALAMEET */
+        name = "Black Dragon Kalameet";
+        image = "http://darksouls.wikidot.com/local--files/bosses/black-dragon-kalameet-large.jpg";
+        description = "Does magic and physical damage. Cut the tail. Some attacks are better blocked than dodged. His face is weak to projectiles.";
+        weak = List.of("None");
+        resist = List.of("None");
+        immune = List.of("Poison", "Toxic");
+        enemy = EEnemy.builder().name(name).description(description).image(image).build();
+
+        saveEnemy(buildEnemy(enemy, weak, resist, immune));
+
+        /* MANUS, FATHER OF THE ABYSS */
+        name = "Manus, Father of the Abyss";
+        image = "https://static.wikia.nocookie.net/darksouls/images/f/fa/Manus%2C_Father_of_the_Abyss_Ingame.jpg/revision/latest/top-crop/width/360/height/450?cb=20160702022012";
+        description = "Maintain a distance that lets you react to his attacks. Note that his dark circle attack can be avoided by standing close to him. Arrows to the head stunlock.";
+        weak = List.of("None");
+        resist = List.of("Magic", "Lightning", "Fire");
+        immune = List.of("Poison", "Toxic", "Bleed");
+        enemy = EEnemy.builder().name(name).description(description).image(image).build();
+
+        saveEnemy(buildEnemy(enemy, weak, resist, immune));
+
+        /* SANCTUARY GAURDIAN */
+        name = "Sanctuary Gaurdian";
+        image = "https://static.wikia.nocookie.net/darksouls/images/3/34/Sanctuary_Guardian.png/revision/latest?cb=20130812200330";
+        description = "Cut the tail. Time your dodges, and be prepared to run around. Melee builds with good reaction speeds are advised.";
+        weak = List.of("Poison", "Toxic", "Bleed", "Fire");
+        resist = List.of("Lightning", "Magic");
+        immune = List.of("None");
+        enemy = EEnemy.builder().name(name).description(description).image(image).build();
+
+        saveEnemy(buildEnemy(enemy, weak, resist, immune));
     }
 
     private void saveEnemy(EEnemy enemy) {
