@@ -31,7 +31,8 @@ public class H2Initializer implements ApplicationRunner {
 
         // Add special weapons/items/cheese stuff here
         var specialNames = new ArrayList<String>();
-        specialNames.addAll(List.of("Ledge", "Backstab", "Parry", "Bracelets", "Farron Greatsword", "Plunge Attack", "Choas Blade", "Lifehunt Scythe"));
+        specialNames.addAll(List.of("Ledge", "Backstab", "Parry", "Bracelets", "Farron Greatsword", "Plunge Attack", "Chaos Blade", "Lifehunt Scythe",
+            "Divine", "Blessed"));
 
         elementNames.addAll(specialNames);
 
@@ -240,14 +241,57 @@ public class H2Initializer implements ApplicationRunner {
         /* PINWHEEL */
         name = "Pinwheel";
         image = "https://static.wikia.nocookie.net/darksouls/images/2/2f/Pinwheel_Ingame.jpg/revision/latest/top-crop/width/300/height/300?cb=20160614065326";
-        description = "Just kill it? Not hard.";
-        weak = List.of("None");
+        description = "It shoots fireballs and clones itself, but if you hit it, it dies lol.";
+        weak = List.of("Fire");
         resist = List.of("None");
         immune = List.of("None");
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
         saveEnemy(buildEnemy(enemy, weak, resist, immune));
 
+        /* SEATH THE SCALELESS */
+        name = "Seath the Scaleless";
+        image = "https://static.wikia.nocookie.net/darksouls/images/1/1f/Seath_the_scaleless.jpg/revision/latest?cb=20121112141611";
+        description = "First encounter is guaranteed death. Second time go after his crystal and his tail and give him the run around.";
+        weak = List.of("Lightning", "Magic", "Fire");
+        resist = List.of("None");
+        immune = List.of("Poison", "Toxic");
+        enemy = EEnemy.builder().name(name).description(description).image(image).build();
+
+        saveEnemy(buildEnemy(enemy, weak, resist, immune));
+
+        /* STRAY DEMON */
+        name = "Stray Demon";
+        image = "http://darksouls.wikidot.com/local--files/bosses/stray-demon-large.jpg";
+        description = "You\'ll take damage falling down into his arena. Avoid locking on and attack his backside.";
+        weak = List.of("Fire", "Bleed", "Poison", "Toxic", "Lifehunt Scythe");
+        resist = List.of("None");
+        immune = List.of("None");
+        enemy = EEnemy.builder().name(name).description(description).image(image).build();
+
+        saveEnemy(buildEnemy(enemy, weak, resist, immune));
+
+        /* TAURUS DEMON */
+        name = "Taurus Demon";
+        image = "http://darksouls.wikidot.com/local--files/bosses/taurus-demon-large.jpg";
+        description = "Draw him near the tower and then plunge attack him. Note he will jump onto the tower if you stay up there too long.";
+        weak = List.of("Fire", "Lightning", "Plunge Attack", "Poison", "Toxic");
+        resist = List.of("None");
+        immune = List.of("None");
+        enemy = EEnemy.builder().name(name).description(description).image(image).build();
+
+        saveEnemy(buildEnemy(enemy, weak, resist, immune));
+
+        /* THE BED OF CHAOS */
+        name = "The Bed of Chaos";
+        image = "https://static.wikia.nocookie.net/darksouls/images/7/75/BOC.jpg/revision/latest?cb=20121122165225";
+        description = "Destroy the glowing roots, enjoy leaping into the bed and dealing with the bug.";
+        weak = List.of("None");
+        resist = List.of("None");
+        immune = List.of("Fire");
+        enemy = EEnemy.builder().name(name).description(description).image(image).build();
+
+        saveEnemy(buildEnemy(enemy, weak, resist, immune));
     }
 
     private void saveEnemy(EEnemy enemy) {
