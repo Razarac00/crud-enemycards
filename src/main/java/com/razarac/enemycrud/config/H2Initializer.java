@@ -189,7 +189,7 @@ public class H2Initializer implements ApplicationRunner {
         description = "Learn his moves. Do not hesitate, do not panic. He is fast.";
         weak = List.of("Parry");
         resist = List.of("Lightning", "Bleed");
-        immune = List.of("None");
+        immune = List.of("Poison", "Toxic");
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
         saveEnemy(buildEnemy(enemy, weak, resist, immune));
@@ -200,7 +200,7 @@ public class H2Initializer implements ApplicationRunner {
         description = "Kill the firebombing giant first. Other than that, go for the legs until you can go for the head, or ledge him.";
         weak = List.of("Ledge");
         resist = List.of("None");
-        immune = List.of("Poison", "Toxic");
+        immune = List.of("Poison", "Toxic", "Bleed");
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
         saveEnemy(buildEnemy(enemy, weak, resist, immune));
