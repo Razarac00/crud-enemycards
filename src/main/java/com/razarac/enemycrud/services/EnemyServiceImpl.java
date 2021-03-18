@@ -1,5 +1,6 @@
 package com.razarac.enemycrud.services;
 
+import com.razarac.enemycrud.models.Enemy;
 import com.razarac.enemycrud.models.PageModel;
 import com.razarac.enemycrud.repository.EnemyCrudRepository;
 
@@ -14,6 +15,12 @@ public class EnemyServiceImpl implements EnemyService {
 
     @Override
     public PageModel getEnemies(String search, Integer pageSize, Integer pageNumber) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Enemy getEnemy(String name) {
         // TODO Auto-generated method stub
         return null;
     }
