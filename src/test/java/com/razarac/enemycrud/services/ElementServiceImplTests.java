@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.razarac.enemycrud.entities.EEnemyElement;
@@ -23,16 +24,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 @ExtendWith(SpringExtension.class)
 public class ElementServiceImplTests {
-    /*
-    To Test:
-    List<EnemyElement> getElements();
-
-    EnemyElement getElement(String name);
-
-    EEnemyElement createEElement(String name);
-
-    List<EEnemyElement> createEElements(List<String> elementNames);
-    */
 
     @TestConfiguration
     static class ElementServiceTestConfig {
@@ -116,6 +107,46 @@ public class ElementServiceImplTests {
         // Assert
         assertThrows(ResponseStatusException.class, () -> {
             elementService.createEElement(name);
+        });
+    }
+
+    @Test
+    public void createEElements_ReturnsListofCreatedElement_WhenCalledByName() {
+        // Arrange
+        List<String> names = List.of("Hollow", "Velstadts Helmet");
+        List<EEnemyElement> elements = new ArrayList<EEnemyElement>(); 
+        names.forEach((n) -> {
+            elements.add(EEnemyElement.builder().name(n).build());
+        });
+
+        Mockito.when(elementCrudRepository.saveAll(elements)).thenReturn(elements);
+        
+        // Act
+        var actual = elementService.createEElements(names);
+
+        // Assert
+        assertTrue(actual == elements);
+    }
+
+    @Test
+    public void createEElements_ThrowsResponseStatusException_WhenAnyNameAlreadyExists() {
+        // Arrange
+        List<String> names = List.of("Hollow", "Velstadts Helmet");
+        String name = "Velstadts Helmet";
+        List<EEnemyElement> elements = new ArrayList<EEnemyElement>(); 
+        names.forEach((n) -> {
+            elements.add(EEnemyElement.builder().name(n).build());
+        });
+        EEnemyElement element = elements.get(1);
+        
+
+        Mockito.when(elementCrudRepository.saveAll(elements)).thenReturn(elements);
+        Mockito.when(elementCrudRepository.findByName(name)).thenReturn(List.of(element));
+        
+        // Act
+        // Assert
+        assertThrows(ResponseStatusException.class, () -> {
+            elementService.createEElements(names);
         });
     }
     
