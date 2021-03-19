@@ -1,6 +1,7 @@
 package com.razarac.enemycrud.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -18,6 +19,7 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.web.server.ResponseStatusException;
 
 @ExtendWith(SpringExtension.class)
 public class ElementServiceImplTests {
@@ -84,6 +86,37 @@ public class ElementServiceImplTests {
         // Assert
         assertEquals(expectedElement.getName(), actual.getName());
         assertEquals(expectedElement.getId(), actual.getId());
+    }
+
+    @Test
+    public void createEElement_ReturnsCreatedElement_WhenCalledByName() {
+        // Arrange
+        String name = "Hollow";
+        EEnemyElement element = EEnemyElement.builder().name(name).build();
+
+        Mockito.when(elementCrudRepository.save(element)).thenReturn(element);
+        
+        // Act
+        var actual = elementService.createEElement(name);
+
+        // Assert
+        assertTrue(actual == element);
+    }
+
+    @Test
+    public void createEElement_ThrowsResponseStatusException_WhenNameAlreadyExists() {
+        // Arrange
+        String name = "Hollow";
+        EEnemyElement element = EEnemyElement.builder().name(name).build();
+
+        Mockito.when(elementCrudRepository.save(element)).thenReturn(element);
+        Mockito.when(elementCrudRepository.findByName(name)).thenReturn(List.of(element));
+        
+        // Act
+        // Assert
+        assertThrows(ResponseStatusException.class, () -> {
+            elementService.createEElement(name);
+        });
     }
     
 }
