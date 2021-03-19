@@ -42,7 +42,7 @@ public class EnemyServiceImpl implements EnemyService {
         pageModel.setPageNumber(pageNumber);
         pageModel.setEnemyTotal(overallEEnemies.size());
         pageModel.setEnemyOffset(pageSize * pageNumber);
-        
+
         return pageModel;
     }
 
@@ -52,6 +52,8 @@ public class EnemyServiceImpl implements EnemyService {
         List<EEnemy> enemies = enemyCrudRepository.findByNameContaining(name);
         if (enemies.size() > 1) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Multiple enemies named " + name);
+        } else if (enemies.size() == 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Zero enemies named " + name);
         }
 
         return convertEEnemy(enemies.get(0));
