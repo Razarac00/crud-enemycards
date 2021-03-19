@@ -8,7 +8,9 @@ import com.razarac.enemycrud.models.*;
 import com.razarac.enemycrud.repository.ElementCrudRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 
 @Component
 public class ElementServiceImpl implements ElementService {
@@ -18,21 +20,19 @@ public class ElementServiceImpl implements ElementService {
 
     @Override
     public List<EnemyElement> getElements() {
-        // TODO Auto-generated method stub
-        return null;
+        return convertEElements(elementCrudRepository.findAll());
     }
 
     @Override
     public EnemyElement getElement(String name) {
-        // TODO Auto-generated method stub
-        return null;
+        return convertEElement(elementCrudRepository.findByName(name).get(0));
     }
 
     @Override
     public EEnemyElement createEElement(String name) {
         // Check if the element name exists, else create it
         if (elementExists(name)) {
-            return null;
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Element " + name + " already exists");
         }
         EEnemyElement element = buildElement(name);
         
@@ -43,7 +43,7 @@ public class ElementServiceImpl implements ElementService {
     public List<EEnemyElement> createEElements(List<String> elementNames) {
         for (String name : elementNames) {
             if (elementExists(name)) {
-                return null;
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Element " + name + " already exists");
             }            
         }
         List<EEnemyElement> elements = buildElements(elementNames);
@@ -76,5 +76,18 @@ public class ElementServiceImpl implements ElementService {
         return element;
     }
 
+    private List<EnemyElement> convertEElements(List<EEnemyElement> eElements) {
+        List<EnemyElement> result = new ArrayList<EnemyElement>();
+
+        for (EEnemyElement eElement : eElements) {
+            result.add(convertEElement(eElement));
+        }
+        return result;
+    }
+
+    private EnemyElement convertEElement(EEnemyElement eElement) {
+        EnemyElement element = EnemyElement.builder().name(eElement.getName()).id(eElement.getId()).build();
+        return element;
+    }
     
 }
