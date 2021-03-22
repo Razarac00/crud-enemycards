@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.razarac.enemycrud.entities.EEnemy;
+import com.razarac.enemycrud.entities.EEnemyElement;
 import com.razarac.enemycrud.models.Enemy;
+import com.razarac.enemycrud.models.EnemyElement;
 import com.razarac.enemycrud.models.PageModel;
 import com.razarac.enemycrud.repository.EnemyCrudRepository;
 
@@ -76,4 +78,30 @@ public class EnemyServiceImplTests {
         assertEquals(pageSize, actual.getPageSize());
         assertEquals((pageSize * pageNumber), actual.getEnemyOffset());
     } 
+
+    @Test
+    public void getEnemy_ReturnsEnemy_WhenCalledByName() {
+        // Arrange
+        String name = "The Pursuer";
+        List<EEnemyElement> eElements = new ArrayList<EEnemyElement>();
+        String elementName = "None";
+        eElements.add(EEnemyElement.builder().name(elementName).build());
+
+        EEnemy enemy = EEnemy.builder().name(name).description("description").image("https://www.image.com").resistances(eElements).weaknesses(eElements).immunities(eElements).build();
+        
+        List<EEnemy> eEnemyList = new ArrayList<EEnemy>();
+        eEnemyList.add(enemy);
+
+        EnemyElement expectedElement = EnemyElement.builder().name(elementName).build();
+        
+        Mockito.when(enemyCrudRepository.findByNameContaining(name)).thenReturn(eEnemyList);
+        Mockito.when(elementService.getElement(elementName)).thenReturn(expectedElement);
+
+        // Act
+        var actual = enemyService.getEnemy(name);
+
+        // Assert
+        assertTrue(actual instanceof Enemy);
+        assertEquals(name, actual.getName());
+    }
 }
