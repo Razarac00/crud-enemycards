@@ -1,6 +1,7 @@
 package com.razarac.enemycrud.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
@@ -26,14 +27,11 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.web.server.ResponseStatusException;
 
 @ExtendWith(SpringExtension.class)
 public class EnemyServiceImplTests {
-    /*
-    To Test:
-    PageModel getEnemies(String search, Integer pageSize, Integer pageNumber);
-    Enemy getEnemy(String name);
-    */
+
     @TestConfiguration
     static class EnemyServiceConfig {
         
@@ -103,5 +101,46 @@ public class EnemyServiceImplTests {
         // Assert
         assertTrue(actual instanceof Enemy);
         assertEquals(name, actual.getName());
+    }
+
+    @Test
+    public void getEnemy_ThrowsResponseStatusException_WhenEnemyDNE() {
+        // Arrange
+        String name = "The Pursuer";
+        List<EEnemy> eEnemyList = new ArrayList<EEnemy>();
+        Mockito.when(enemyCrudRepository.findByNameContaining(name)).thenReturn(eEnemyList); 
+
+        // Act
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> { enemyService.getEnemy(name); });
+
+        // Assert
+        assertTrue(exception.getMessage().contains("Zero"));
+    }
+
+    @Test
+    public void getEnemy_ThrowsResponseStatusException_WhenMultipleEnemiesSameName() {
+        // Arrange
+        String name = "The Pursuer";
+
+        List<EEnemyElement> eElements = new ArrayList<EEnemyElement>();
+        String elementName = "None";
+        eElements.add(EEnemyElement.builder().name(elementName).build());
+
+        EEnemy enemy = EEnemy.builder().name(name).description("description").image("https://www.image.com").resistances(eElements).weaknesses(eElements).immunities(eElements).build();
+        
+        List<EEnemy> eEnemyList = new ArrayList<EEnemy>();
+        eEnemyList.add(enemy);
+        eEnemyList.add(enemy);
+
+        EnemyElement expectedElement = EnemyElement.builder().name(elementName).build();
+
+        Mockito.when(enemyCrudRepository.findByNameContaining(name)).thenReturn(eEnemyList); 
+        Mockito.when(elementService.getElement(elementName)).thenReturn(expectedElement);
+
+        // Act
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> { enemyService.getEnemy(name); });
+
+        // Assert
+        assertTrue(exception.getMessage().contains("Multiple"));
     }
 }
