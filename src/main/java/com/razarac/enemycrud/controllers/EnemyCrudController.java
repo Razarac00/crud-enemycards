@@ -6,7 +6,9 @@ import com.razarac.enemycrud.services.EnemyService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -17,15 +19,20 @@ public class EnemyCrudController {
 
     @GetMapping
     @RequestMapping("/enemies")
-    public PageModel getEnemies(String searchName, Integer pageNumber, Integer pageSize) {
-
-        return enemyService.getEnemies(searchName, pageSize, pageNumber);
+    public PageModel getEnemies(
+        @RequestParam(value = "search", required = false) String search, 
+        @RequestParam("pageNumber") Integer pageNumber, 
+        @RequestParam("pageSize") Integer pageSize) {
+        
+        if (search == null) {
+            search = "";
+        }
+        return enemyService.getEnemies(search, pageSize, pageNumber);
     }
     
-    @GetMapping
-    @RequestMapping("/enemy")
-    public Enemy getEnemy(String searchName) {
+    @GetMapping("/enemies/{name}")
+    public Enemy getEnemy(@PathVariable("name") String name) {
 
-        return enemyService.getEnemy(searchName);
+        return enemyService.getEnemy(name);
     }
 }
