@@ -7,6 +7,7 @@ import java.util.List;
 import com.razarac.enemycrud.entities.*;
 import com.razarac.enemycrud.repository.*;
 
+import org.hibernate.collection.internal.PersistentBag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -341,27 +342,47 @@ public class H2Initializer implements ApplicationRunner {
     }
 
     private void saveEnemy(EEnemy enemy) {
+        // enemyCrudRepository.save(enemy);
         for (EEnemyElement element : enemy.getWeaknesses()) {
-            element.getWeakEnemies().add(enemy);
+            // elementCrudRepository.findById(element.getId()).ifPresent((e) -> {e.getWeakEnemies().add(enemy);});
+            if (element.getWeakEnemies() instanceof PersistentBag) {
+                element.setWeakEnemies(new ArrayList<EEnemy>(List.of(enemy)));
+            } else {
+                element.getWeakEnemies().add(enemy);
+            }
         }
         for (EEnemyElement element : enemy.getResistances()) {
-            element.getResistEnemies().add(enemy);
+            // elementCrudRepository.findById(element.getId()).ifPresent((e) -> {e.getResistEnemies().add(enemy);});
+            if (element.getResistEnemies() instanceof PersistentBag) {
+                element.setResistEnemies(new ArrayList<EEnemy>(List.of(enemy)));
+            } else {
+                element.getResistEnemies().add(enemy);
+            }
         }
         for (EEnemyElement element : enemy.getImmunities()) {
-            element.getImmuneEnemies().add(enemy);
+            // elementCrudRepository.findById(element.getId()).ifPresent((e) -> {e.getImmuneEnemies().add(enemy);});
+            if (element.getResistEnemies() instanceof PersistentBag) {
+                element.setImmuneEnemies(new ArrayList<EEnemy>(List.of(enemy)));
+            } else {
+                element.getImmuneEnemies().add(enemy);
+            }
         }
-        enemyCrudRepository.save(enemy);
+        // enemyCrudRepository.save(enemy);
+        
     }
 
     private EEnemy buildEnemy(EEnemy enemy, List<String> weak, List<String> resist, List<String> immune) {
         List<EEnemyElement> result = new ArrayList<EEnemyElement>();
+        enemyCrudRepository.save(enemy);
 
         for (String elementName : weak) {
             result.addAll(elementCrudRepository.findByName(elementName));
             if (enemy.getWeaknesses() == null) {
                 enemy.setWeaknesses(new ArrayList<EEnemyElement>(result));
+                // result.get(0).setWeakEnemies(new ArrayList<EEnemy>(List.of(enemy)));
             } else {
                 enemy.getWeaknesses().addAll(result);
+                // result.get(0).getWeakEnemies().add(enemy);
             }
             result.clear();
         }
@@ -371,8 +392,10 @@ public class H2Initializer implements ApplicationRunner {
             result.addAll(elementCrudRepository.findByName(elementName));
             if (enemy.getResistances() == null) {
                 enemy.setResistances(new ArrayList<EEnemyElement>(result));
+                // result.get(0).setResistEnemies(new ArrayList<EEnemy>(List.of(enemy)));
             } else {
                 enemy.getResistances().addAll(result);
+                // result.get(0).getResistEnemies().add(enemy);
             }
             result.clear();
         }

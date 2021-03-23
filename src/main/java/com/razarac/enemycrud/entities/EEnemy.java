@@ -25,27 +25,42 @@ public class EEnemy {
         cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
-        }, 
-        mappedBy = "weakEnemies")
-    @Column(name = "WEAKNESSES")
+        }//, 
+        )//mappedBy = "weakEnemies")
+    // @Column(name = "WEAKNESSES")
+    @JoinTable(
+        name = "ENEMYELEMENT_WEAK",
+        joinColumns = @JoinColumn(name = "ENEMY_ID"),
+        inverseJoinColumns = @JoinColumn(name = "ELEMENT_ID")
+    )
     private List<EEnemyElement> weaknesses;
 
     @ManyToMany(fetch = FetchType.LAZY,
         cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
-        }, 
-        mappedBy = "resistEnemies") 
-    @Column(name = "RESISTANCES")
+        })//, 
+        //mappedBy = "resistEnemies") 
+    // @Column(name = "RESISTANCES")
+    @JoinTable(
+        name = "ENEMYELEMENT_RESIST",
+        joinColumns = @JoinColumn(name = "ENEMY_ID"),
+        inverseJoinColumns = @JoinColumn(name = "ELEMENT_ID")
+    )
     private List<EEnemyElement> resistances;
 
     @ManyToMany(fetch = FetchType.LAZY,
         cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
-        }, 
-        mappedBy = "immuneEnemies") 
-    @Column(name = "IMMUNITIES")
+        })//, 
+        //mappedBy = "immuneEnemies") 
+    // @Column(name = "IMMUNITIES")
+    @JoinTable(
+        name = "ENEMYELEMENT_IMMUNE",
+        joinColumns = @JoinColumn(name = "ENEMY_ID"),
+        inverseJoinColumns = @JoinColumn(name = "ELEMENT_ID")
+    )
     private List<EEnemyElement> immunities;
     
     @Column(name = "IMAGE", nullable = false)
