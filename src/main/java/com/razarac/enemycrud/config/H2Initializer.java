@@ -1,7 +1,7 @@
 package com.razarac.enemycrud.config;
 
 import java.util.ArrayList;
-import java.util.Collections;
+// import java.util.Collections;
 import java.util.List;
 
 import com.razarac.enemycrud.entities.*;
@@ -43,9 +43,9 @@ public class H2Initializer implements ApplicationRunner {
         String name = "";
         String image = "";
         String description = "";
-        List<String> weak = Collections.<String> emptyList();
-        List<String> resist = Collections.<String> emptyList();
-        List<String> immune = Collections.<String> emptyList();
+        List<String> weak = new ArrayList<String>();
+        List<String> resist = new ArrayList<String>();
+        List<String> immune = new ArrayList<String>(); //Collections.<String> emptyList();
         EEnemy enemy;
 
         // ------------------------------------------------------ //
@@ -358,17 +358,32 @@ public class H2Initializer implements ApplicationRunner {
 
         for (String elementName : weak) {
             result.addAll(elementCrudRepository.findByName(elementName));
-            enemy.setWeaknesses(result);
+            if (enemy.getWeaknesses() == null) {
+                enemy.setWeaknesses(new ArrayList<EEnemyElement>(result));
+            } else {
+                enemy.getWeaknesses().addAll(result);
+            }
             result.clear();
         }
+        
+
         for (String elementName : resist) {
             result.addAll(elementCrudRepository.findByName(elementName));
-            enemy.setResistances(result);
+            if (enemy.getResistances() == null) {
+                enemy.setResistances(new ArrayList<EEnemyElement>(result));
+            } else {
+                enemy.getResistances().addAll(result);
+            }
             result.clear();
         }
+        
         for (String elementName : immune) {
             result.addAll(elementCrudRepository.findByName(elementName));
-            enemy.setImmunities(result);
+            if (enemy.getImmunities() == null) {
+                enemy.setImmunities(new ArrayList<EEnemyElement>(result));
+            } else {
+                enemy.getImmunities().addAll(result);
+            }
             result.clear();
         }
 
