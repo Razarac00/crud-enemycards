@@ -33,15 +33,19 @@ public class EnemyServiceImpl implements EnemyService {
 
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<EEnemy> eEnemiesPage = enemyCrudRepository.findByNameContaining(searchName, pageable);
-        List<EEnemy> overallEEnemies = enemyCrudRepository.findByNameContaining(searchName);
         
         List<Enemy> content = convertEEnemies(eEnemiesPage.toList());
+        
+        Long totalEnemies = eEnemiesPage.getTotalElements();
         
         pageModel.setContent(content);
         pageModel.setPageSize(pageSize);
         pageModel.setPageNumber(pageNumber);
-        pageModel.setEnemyTotal(overallEEnemies.size());
+        pageModel.setPageTotal(eEnemiesPage.getTotalPages());
+        pageModel.setEnemyTotal(totalEnemies.intValue());
         pageModel.setEnemyOffset(pageSize * pageNumber);
+        pageModel.setHasNext(eEnemiesPage.hasNext());
+        pageModel.setHasPrevious(eEnemiesPage.hasPrevious());
 
         return pageModel;
     }
