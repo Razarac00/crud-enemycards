@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.razarac.enemycrud.entities.EEnemy;
+import com.razarac.enemycrud.entities.EEnemyElement;
 import com.razarac.enemycrud.models.Enemy;
 import com.razarac.enemycrud.models.EnemyElement;
 import com.razarac.enemycrud.models.PageModel;
@@ -62,6 +63,101 @@ public class EnemyServiceImpl implements EnemyService {
         }
 
         return convertEEnemy(enemies.get(0));
+    }
+
+    @Override
+    public Enemy addEnemy(Enemy enemy) {
+        String name = enemy.getName();
+
+        if (enemyExists(name)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Enemy already exists named " + name);
+        }
+
+        String desc = enemy.getDescription();
+        String image = enemy.getImage();
+        List<EnemyElement> weak = enemy.getWeaknesses();
+        List<EnemyElement> resist = enemy.getResistances();
+        List<EnemyElement> immune = enemy.getImmunities();
+
+        EEnemy newEnemy = EEnemy.builder().name(name).description(desc).image(image).build();
+        newEnemy = setupElements(newEnemy, weak, resist, immune);
+        
+        enemyCrudRepository.save(newEnemy);
+        return convertEEnemy(newEnemy);
+    }
+
+    @Override
+    public Enemy updateEnemy(Long id, Enemy enemy) {
+        if (!enemyCrudRepository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Enemy does not exist with id " + id);
+        }
+        EEnemy original = enemyCrudRepository.getOne(id);
+
+        String name = enemy.getName();
+        String desc = enemy.getDescription();
+        String image = enemy.getImage();
+        List<EnemyElement> weak = enemy.getWeaknesses();
+        List<EnemyElement> resist = enemy.getResistances();
+        List<EnemyElement> immune = enemy.getImmunities();
+
+        if (!name.trim().isEmpty()) {
+            original.setName(name);
+        }
+        if (!desc.trim().isEmpty()) {
+            original.setDescription(desc);
+        }
+        if (!image.trim().isEmpty()) {
+            original.setImage(image);
+        }
+        original = setupElements(original, weak, resist, immune);
+
+        enemyCrudRepository.save(original);
+
+        return convertEEnemy(original);
+    }
+
+    /////////////// HELPERS ///////////////
+
+    private EEnemy setupElements(EEnemy src, List<EnemyElement> weak, List<EnemyElement> resist, List<EnemyElement> immune) {
+        if (!weak.isEmpty()) {
+            for (EnemyElement enemyElement : weak) {
+                try {
+                    EEnemyElement eElement = elementService.getEElement(enemyElement.getName());
+                    eElement.getWeakEnemies().add(src);
+                } catch (ResponseStatusException e) {
+                    EEnemyElement eElement = elementService.createEElementNoSave(enemyElement.getName());
+                    eElement.getWeakEnemies().add(src);
+                }
+            }
+
+        }
+        if (!resist.isEmpty()) {
+            for (EnemyElement enemyElement : resist) {
+                try {
+                    EEnemyElement eElement = elementService.getEElement(enemyElement.getName());
+                    eElement.getResistEnemies().add(src);
+                } catch (ResponseStatusException e) {
+                    EEnemyElement eElement = elementService.createEElementNoSave(enemyElement.getName());
+                    eElement.getResistEnemies().add(src);
+                }
+            }
+        }
+        if (!immune.isEmpty()) {
+            for (EnemyElement enemyElement : immune) {
+                try {
+                    EEnemyElement eElement = elementService.getEElement(enemyElement.getName());
+                    eElement.getImmuneEnemies().add(src);
+                } catch (ResponseStatusException e) {
+                    EEnemyElement eElement = elementService.createEElementNoSave(enemyElement.getName());
+                    eElement.getImmuneEnemies().add(src);
+                }
+            }
+        }
+        return src;
+    }
+
+    private Boolean enemyExists(String name) {
+        return enemyCrudRepository.findByNameContaining(name).size() >= 1;
     }
 
     private List<Enemy> convertEEnemies(List<EEnemy> eEnemies) {

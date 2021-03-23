@@ -14,8 +14,14 @@ public interface ElementService {
 
     EnemyElement getElement(String name);
 
+    EEnemyElement getEElement(String name);
+
     EEnemyElement createEElement(String name);
 
+    EEnemyElement createEElementNoSave(String name);
+
     List<EEnemyElement> createEElements(List<String> elementNames);
+
+    EEnemyElement updateEElement(Long id, EEnemyElement eEnemyElement);
     
 }

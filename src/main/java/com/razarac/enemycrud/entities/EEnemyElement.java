@@ -1,5 +1,6 @@
 package com.razarac.enemycrud.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,7 +27,8 @@ public class EEnemyElement {
             CascadeType.MERGE
         },//)
         mappedBy = "weaknesses") 
-    private List<EEnemy> weakEnemies;
+    @Builder.Default
+    private List<EEnemy> weakEnemies = new ArrayList<EEnemy>();
 
     @ManyToMany(fetch = FetchType.LAZY,
         cascade = {
@@ -34,7 +36,8 @@ public class EEnemyElement {
             CascadeType.MERGE
         },//)
         mappedBy = "resistances") 
-    private List<EEnemy> resistEnemies;   
+    @Builder.Default
+    private List<EEnemy> resistEnemies = new ArrayList<EEnemy>();   
 
     @ManyToMany(fetch = FetchType.LAZY,
         cascade = {
@@ -42,7 +45,8 @@ public class EEnemyElement {
             CascadeType.MERGE
         },//)
         mappedBy = "immunities") 
-    private List<EEnemy> immuneEnemies;
+    @Builder.Default
+    private List<EEnemy> immuneEnemies = new ArrayList<EEnemy>();
 
     public EEnemyElement() {}
 

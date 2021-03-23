@@ -51,6 +51,58 @@ public class ElementServiceImpl implements ElementService {
         return elementCrudRepository.saveAll(elements);
     }
 
+    @Override
+    public EEnemyElement createEElementNoSave(String name) {
+        // Avoid saving to repo so that enemy saving will take care of it
+        if (elementExists(name)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Element " + name + " already exists");
+        }
+        EEnemyElement element = buildElement(name);
+        return element;
+    }
+
+    @Override
+    public EEnemyElement getEElement(String name) {
+        if (!elementExists(name)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Element " + name + " does not exist");
+        }
+        return elementCrudRepository.findByName(name).get(0);
+    }
+
+    @Override
+    public EEnemyElement updateEElement(Long id, EEnemyElement eEnemyElement) {
+        if (!elementCrudRepository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Element not found with id " + id);
+        }
+        EEnemyElement original = elementCrudRepository.getOne(id);
+        String name = eEnemyElement.getName();
+        List<EEnemy> weak = eEnemyElement.getWeakEnemies();
+        List<EEnemy> resist = eEnemyElement.getResistEnemies();
+        List<EEnemy> immune = eEnemyElement.getImmuneEnemies();
+
+        if (!name.trim().isEmpty()) {
+            original.setName(name);
+        }
+        if (!weak.isEmpty()) {
+            for (EEnemy eEnemy : weak) {
+                original.getWeakEnemies().add(eEnemy);
+            }
+        }
+        if (!resist.isEmpty()) {
+            for (EEnemy eEnemy : resist) {
+                original.getResistEnemies().add(eEnemy);
+            }
+        }
+        if (!immune.isEmpty()) {
+            for (EEnemy eEnemy : immune) {
+                original.getImmuneEnemies().add(eEnemy);
+            }
+        }
+        return original;
+    }
+
+    /////////////// HELPERS ///////////////
+
     private Boolean elementExists(String name) {
         return elementCrudRepository.findByName(name).size() > 0;
     }
@@ -69,9 +121,6 @@ public class ElementServiceImpl implements ElementService {
 
     private EEnemyElement buildElement(String name) {
         EEnemyElement element = EEnemyElement.builder().name(name).build(); 
-        element.setWeakEnemies(new ArrayList<EEnemy>());
-        element.setResistEnemies(new ArrayList<EEnemy>());
-        element.setImmuneEnemies(new ArrayList<EEnemy>());
 
         return element;
     }
