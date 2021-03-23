@@ -9,7 +9,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 // import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 // import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -36,7 +38,7 @@ public class EnemyCrudControllerIT {
     }
 
     @Test
-    public void getEnemies_Return200Status_WhenCalled() throws Exception {
+    public void getEnemies_Returns200Status_WhenCalled() throws Exception {
         // Arrange
         String request = "?search=" + search + "&pageNumber=" + pageNumber + "&pageSize=" + pageSize;
 
@@ -48,7 +50,7 @@ public class EnemyCrudControllerIT {
     }
 
     @Test
-    public void getEnemies_Return200Status_WhenCalledWithoutSearch() throws Exception {
+    public void getEnemies_Returns200Status_WhenCalledWithoutSearch() throws Exception {
         // Arrange
         String request = "?pageNumber=" + pageNumber + "&pageSize=" + pageSize;
 
@@ -57,5 +59,34 @@ public class EnemyCrudControllerIT {
         
         // Assert
         mockMvc.perform(get(url)).andExpect(status().isOk());
+    }
+
+    @Test
+    public void getEnemy_Returns200Status_WhenCalledByName() throws Exception {
+        // Arrange
+        String request = "/Nito";
+
+        // Act
+        url = url + request;
+
+        // Assert
+        MvcResult result = mockMvc.perform(get(url)).andExpect(status().isOk()).andReturn();
+        String actual = result.getResponse().getContentAsString();
+        assertTrue(actual.contains("Nito"));
+    }
+
+    @Test
+    public void getEnemy_Returns200Status_WhenCalledByNamesWithDashes() throws Exception {
+        // Arrange
+        String request = "/Gwyn-Lord-of-Cinder";
+
+        // Act
+        url = url + request;
+
+        // Assert
+        MvcResult result = mockMvc.perform(get(url)).andExpect(status().isOk()).andReturn();
+        String actual = result.getResponse().getContentAsString();
+        assertTrue(actual.contains("Gwyn Lord of Cinder"));
+
     }
 }

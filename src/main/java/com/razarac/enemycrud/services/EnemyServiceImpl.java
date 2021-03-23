@@ -49,6 +49,7 @@ public class EnemyServiceImpl implements EnemyService {
     @Override
     public Enemy getEnemy(String name) {
         // Expecting a full name so there SHOULD only be one
+        name = name.replace("-", " ");
         List<EEnemy> enemies = enemyCrudRepository.findByNameContaining(name);
         if (enemies.size() > 1) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Multiple enemies named " + name);
