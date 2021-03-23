@@ -81,9 +81,16 @@ public class EnemyServiceImpl implements EnemyService {
 
         EEnemy newEnemy = EEnemy.builder().name(name).description(desc).image(image).build();
         newEnemy = setupElements(newEnemy, weak, resist, immune);
-        
+
         enemyCrudRepository.save(newEnemy);
         return convertEEnemy(newEnemy);
+    }
+
+    @Override
+    public Enemy addEnemy(EEnemy eEnemy) {
+        Enemy enemy = convertEEnemy(eEnemy);
+
+        return addEnemy(enemy);
     }
 
     @Override
