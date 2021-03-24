@@ -38,7 +38,7 @@ public class EnemyCrudRepositoryIT {
     }
 
     @Test
-    public void save_CorrectCount_WhenSaveOneEnemyTwoWeakOneResistTwoImmune() {
+    public void save_CorrectCount_WhenSaveOneEnemy() {
         // Arrange
         List<EEnemyElement> weaknesses = new ArrayList<EEnemyElement>(); 
         List<EEnemyElement> resistances = new ArrayList<EEnemyElement>(); 
@@ -57,6 +57,7 @@ public class EnemyCrudRepositoryIT {
 
         // Assert
         assertEquals(1, actual.size());
+        assertEquals(name, actual.get(0).getName());
     }
 
     @Test
@@ -104,6 +105,44 @@ public class EnemyCrudRepositoryIT {
         // Assert
         assertEquals(pageSize, actual.getContent().size());
         assertFalse(actual.getContent().contains(unexpected));        
+    }
+
+    @Test
+    public void save_CorrectElements_WhenSavingEnemy() {
+        // Arrange
+        EEnemyElement element1 = EEnemyElement.builder().name("None").build();
+        EEnemyElement element2 = EEnemyElement.builder().name("Lightning").build();
+        EEnemyElement element3 = EEnemyElement.builder().name("Fire").build();
+
+        List<EEnemyElement> weaknesses = new ArrayList<EEnemyElement>(); 
+        List<EEnemyElement> resistances = new ArrayList<EEnemyElement>(); 
+        List<EEnemyElement> immunities = new ArrayList<EEnemyElement>(); 
+
+        String name = "Burnt Ivory King";
+        String image = "https://darksouls2.wiki.fextralife.com/file/Dark-Souls-2/burnt_ivory_king.png";
+        String description = "Watch out for his thrust attack and magic extendo blade.";
+
+        EEnemy enemy = EEnemy.builder().name(name).description(description).image(image).weaknesses(weaknesses).resistances(resistances).immunities(immunities).build();
+
+        // Act
+        enemy.getImmunities().add(element1);
+        enemy.getWeaknesses().add(element2);
+        enemy.getResistances().add(element3);
+
+        element1.getImmuneEnemies().add(enemy);
+        element2.getWeakEnemies().add(enemy);
+        element3.getImmuneEnemies().add(enemy);
+
+        var actual = enemyCrudRepository.save(enemy);
+
+        // Assert
+        assertEquals(enemy, actual);
+        assertEquals(enemy.getWeaknesses(), actual.getWeaknesses());
+        assertEquals(element1, actual.getImmunities().get(0));
+
+        var received = enemyCrudRepository.getOne(actual.getId());
+        assertEquals(element2, received.getWeaknesses().get(0));
+        assertEquals(element3, received.getResistances().get(0));
     }
 
 }
