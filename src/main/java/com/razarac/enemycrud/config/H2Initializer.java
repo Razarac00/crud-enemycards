@@ -1,6 +1,7 @@
 package com.razarac.enemycrud.config;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 // import java.util.Collections;
 import java.util.List;
 
@@ -26,6 +27,8 @@ public class H2Initializer implements ApplicationRunner {
     @Autowired
     private EnemyService enemyService;
 
+    private HashMap<String, EEnemyElement> elementMap = new HashMap<String, EEnemyElement>(); 
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
         // ------------------------------------------------------ //
@@ -42,7 +45,7 @@ public class H2Initializer implements ApplicationRunner {
         elementNames.addAll(specialNames);
 
         List<EEnemyElement> elements = buildElements(elementNames);
-        // elementCrudRepository.saveAll(elements);
+        elementCrudRepository.saveAll(elements);
         
         // ------------------ BOSS ATTRIBUTES ------------------- //
         String name = "";
@@ -66,7 +69,7 @@ public class H2Initializer implements ApplicationRunner {
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
         // saveEnemy(buildEnemy(enemy, weak, resist, immune));
-        enemyService.addEnemy(buildEnemy(enemy, weak, resist, immune));
+        buildEnemy(enemy, weak, resist, immune);
 
         /* BELL GARGOYLE */
         name = "Bell Gargoyle";
@@ -78,7 +81,7 @@ public class H2Initializer implements ApplicationRunner {
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
         // saveEnemy(buildEnemy(enemy, weak, resist, immune));
-        enemyService.addEnemy(buildEnemy(enemy, weak, resist, immune));
+        buildEnemy(enemy, weak, resist, immune);
 
         /* CAPRA DEMON */
         name = "Capra Demon";
@@ -90,7 +93,7 @@ public class H2Initializer implements ApplicationRunner {
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
         // saveEnemy(buildEnemy(enemy, weak, resist, immune));
-        enemyService.addEnemy(buildEnemy(enemy, weak, resist, immune));
+        buildEnemy(enemy, weak, resist, immune);
 
         /* CEASELESS DISCHARGE */
         name = "Ceaseless Discharge";
@@ -102,7 +105,7 @@ public class H2Initializer implements ApplicationRunner {
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
         // saveEnemy(buildEnemy(enemy, weak, resist, immune));
-        enemyService.addEnemy(buildEnemy(enemy, weak, resist, immune));
+        buildEnemy(enemy, weak, resist, immune);
 
         /* CENTIPEDE DEMON */
         name = "Centipede Demon";
@@ -114,7 +117,7 @@ public class H2Initializer implements ApplicationRunner {
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
         // saveEnemy(buildEnemy(enemy, weak, resist, immune));
-        enemyService.addEnemy(buildEnemy(enemy, weak, resist, immune));
+        buildEnemy(enemy, weak, resist, immune);
 
         /* CHAOS WITCH QUELAAG */
         name = "Chaos Witch Quelaag";
@@ -126,7 +129,7 @@ public class H2Initializer implements ApplicationRunner {
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
         // saveEnemy(buildEnemy(enemy, weak, resist, immune));
-        enemyService.addEnemy(buildEnemy(enemy, weak, resist, immune));
+        buildEnemy(enemy, weak, resist, immune);
 
         /* CROSSBREED PRISCILLA */
         name = "Crossbreed Priscilla";
@@ -138,7 +141,7 @@ public class H2Initializer implements ApplicationRunner {
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
         // saveEnemy(buildEnemy(enemy, weak, resist, immune));
-        enemyService.addEnemy(buildEnemy(enemy, weak, resist, immune));
+        buildEnemy(enemy, weak, resist, immune);
 
         /* DARK SUN GWYNDOLIN */
         name = "Dark Sun Gwyndolin";
@@ -150,7 +153,7 @@ public class H2Initializer implements ApplicationRunner {
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
         // saveEnemy(buildEnemy(enemy, weak, resist, immune));
-        enemyService.addEnemy(buildEnemy(enemy, weak, resist, immune));
+        buildEnemy(enemy, weak, resist, immune);
 
         /* DEMON FIRESAGE */
         name = "Demon Firesage";
@@ -162,7 +165,7 @@ public class H2Initializer implements ApplicationRunner {
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
         // saveEnemy(buildEnemy(enemy, weak, resist, immune));
-        enemyService.addEnemy(buildEnemy(enemy, weak, resist, immune));
+        buildEnemy(enemy, weak, resist, immune);
 
         /* FOUR KINGS */
         name = "Four Kings";
@@ -174,7 +177,7 @@ public class H2Initializer implements ApplicationRunner {
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
         // saveEnemy(buildEnemy(enemy, weak, resist, immune));
-        enemyService.addEnemy(buildEnemy(enemy, weak, resist, immune));
+        buildEnemy(enemy, weak, resist, immune);
 
         /* GAPING DRAGON */
         name = "Gaping Dragon";
@@ -186,7 +189,7 @@ public class H2Initializer implements ApplicationRunner {
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
         // saveEnemy(buildEnemy(enemy, weak, resist, immune));
-        enemyService.addEnemy(buildEnemy(enemy, weak, resist, immune));
+        buildEnemy(enemy, weak, resist, immune);
 
         /* GREAT GREY WOLF SIF */
         name = "Great Grey Wolf Sif";
@@ -198,7 +201,7 @@ public class H2Initializer implements ApplicationRunner {
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
         // saveEnemy(buildEnemy(enemy, weak, resist, immune));
-        enemyService.addEnemy(buildEnemy(enemy, weak, resist, immune));
+        buildEnemy(enemy, weak, resist, immune);
 
         /* GWYN LORD OF CINDER */
         name = "Gwyn Lord of Cinder";
@@ -210,7 +213,7 @@ public class H2Initializer implements ApplicationRunner {
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
         // saveEnemy(buildEnemy(enemy, weak, resist, immune));
-        enemyService.addEnemy(buildEnemy(enemy, weak, resist, immune));
+        buildEnemy(enemy, weak, resist, immune);
 
         /* IRON GOLEM */
         name = "Iron Golem";
@@ -222,7 +225,7 @@ public class H2Initializer implements ApplicationRunner {
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
         // saveEnemy(buildEnemy(enemy, weak, resist, immune));
-        enemyService.addEnemy(buildEnemy(enemy, weak, resist, immune));
+        buildEnemy(enemy, weak, resist, immune);
 
         /* MOONLIGHT BUTTERFLY */
         name = "Moonlight Butterfly";
@@ -234,7 +237,7 @@ public class H2Initializer implements ApplicationRunner {
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
         // saveEnemy(buildEnemy(enemy, weak, resist, immune));
-        enemyService.addEnemy(buildEnemy(enemy, weak, resist, immune));
+        buildEnemy(enemy, weak, resist, immune);
 
         /* NITO */
         name = "Nito";
@@ -246,7 +249,7 @@ public class H2Initializer implements ApplicationRunner {
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
         // saveEnemy(buildEnemy(enemy, weak, resist, immune));
-        enemyService.addEnemy(buildEnemy(enemy, weak, resist, immune));
+        buildEnemy(enemy, weak, resist, immune);
 
         /* ORNSTEIN AND SMOUGH */
         name = "Ornstein and Smough";
@@ -258,7 +261,7 @@ public class H2Initializer implements ApplicationRunner {
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
         // saveEnemy(buildEnemy(enemy, weak, resist, immune));
-        enemyService.addEnemy(buildEnemy(enemy, weak, resist, immune));
+        buildEnemy(enemy, weak, resist, immune);
 
         /* PINWHEEL */
         name = "Pinwheel";
@@ -270,7 +273,7 @@ public class H2Initializer implements ApplicationRunner {
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
         // saveEnemy(buildEnemy(enemy, weak, resist, immune));
-        enemyService.addEnemy(buildEnemy(enemy, weak, resist, immune));
+        buildEnemy(enemy, weak, resist, immune);
 
         /* SEATH THE SCALELESS */
         name = "Seath the Scaleless";
@@ -282,7 +285,7 @@ public class H2Initializer implements ApplicationRunner {
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
         // saveEnemy(buildEnemy(enemy, weak, resist, immune));
-        enemyService.addEnemy(buildEnemy(enemy, weak, resist, immune));
+        buildEnemy(enemy, weak, resist, immune);
 
         /* STRAY DEMON */
         name = "Stray Demon";
@@ -294,7 +297,7 @@ public class H2Initializer implements ApplicationRunner {
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
         // saveEnemy(buildEnemy(enemy, weak, resist, immune));
-        enemyService.addEnemy(buildEnemy(enemy, weak, resist, immune));
+        buildEnemy(enemy, weak, resist, immune);
 
         /* TAURUS DEMON */
         name = "Taurus Demon";
@@ -306,7 +309,7 @@ public class H2Initializer implements ApplicationRunner {
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
         // saveEnemy(buildEnemy(enemy, weak, resist, immune));
-        enemyService.addEnemy(buildEnemy(enemy, weak, resist, immune));
+        buildEnemy(enemy, weak, resist, immune);
 
         /* THE BED OF CHAOS */
         name = "The Bed of Chaos";
@@ -318,7 +321,7 @@ public class H2Initializer implements ApplicationRunner {
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
         // saveEnemy(buildEnemy(enemy, weak, resist, immune));
-        enemyService.addEnemy(buildEnemy(enemy, weak, resist, immune));
+        buildEnemy(enemy, weak, resist, immune);
 
         // ----------------- DARK SOULS ONE DLC ----------------- //
 
@@ -332,7 +335,7 @@ public class H2Initializer implements ApplicationRunner {
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
         // saveEnemy(buildEnemy(enemy, weak, resist, immune));
-        enemyService.addEnemy(buildEnemy(enemy, weak, resist, immune));
+        buildEnemy(enemy, weak, resist, immune);
 
         /* BLACK DRAGON KALAMEET */
         name = "Black Dragon Kalameet";
@@ -344,7 +347,7 @@ public class H2Initializer implements ApplicationRunner {
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
         // saveEnemy(buildEnemy(enemy, weak, resist, immune));
-        enemyService.addEnemy(buildEnemy(enemy, weak, resist, immune));
+        buildEnemy(enemy, weak, resist, immune);
 
         /* MANUS, FATHER OF THE ABYSS */
         name = "Manus, Father of the Abyss";
@@ -356,7 +359,7 @@ public class H2Initializer implements ApplicationRunner {
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
         // saveEnemy(buildEnemy(enemy, weak, resist, immune));
-        enemyService.addEnemy(buildEnemy(enemy, weak, resist, immune));
+        buildEnemy(enemy, weak, resist, immune);
 
         /* SANCTUARY GAURDIAN */
         name = "Sanctuary Gaurdian";
@@ -368,7 +371,7 @@ public class H2Initializer implements ApplicationRunner {
         enemy = EEnemy.builder().name(name).description(description).image(image).build();
 
         // saveEnemy(buildEnemy(enemy, weak, resist, immune));
-        enemyService.addEnemy(buildEnemy(enemy, weak, resist, immune));
+        buildEnemy(enemy, weak, resist, immune);
     }
 
     private void saveEnemy(EEnemy enemy) {
@@ -402,45 +405,23 @@ public class H2Initializer implements ApplicationRunner {
     }
 
     private EEnemy buildEnemy(EEnemy enemy, List<String> weak, List<String> resist, List<String> immune) {
-        List<EEnemyElement> result = new ArrayList<EEnemyElement>();
-        // enemyCrudRepository.save(enemy);
-
         for (String elementName : weak) {
-            result.addAll(elementCrudRepository.findByName(elementName));
-            if (enemy.getWeaknesses() == null) {
-                enemy.setWeaknesses(new ArrayList<EEnemyElement>(result));
-                // result.get(0).setWeakEnemies(new ArrayList<EEnemy>(List.of(enemy)));
-            } else {
-                enemy.getWeaknesses().addAll(result);
-                // result.get(0).getWeakEnemies().add(enemy);
-            }
-            result.clear();
+            EEnemyElement element = elementMap.get(elementName);
+            enemy.getWeaknesses().add(element);
+            element.getWeakEnemies().add(enemy);
         }
-        
-
         for (String elementName : resist) {
-            result.addAll(elementCrudRepository.findByName(elementName));
-            if (enemy.getResistances() == null) {
-                enemy.setResistances(new ArrayList<EEnemyElement>(result));
-                // result.get(0).setResistEnemies(new ArrayList<EEnemy>(List.of(enemy)));
-            } else {
-                enemy.getResistances().addAll(result);
-                // result.get(0).getResistEnemies().add(enemy);
-            }
-            result.clear();
+            EEnemyElement element = elementMap.get(elementName);
+            enemy.getResistances().add(element);
+            element.getResistEnemies().add(enemy);
         }
-        
         for (String elementName : immune) {
-            result.addAll(elementCrudRepository.findByName(elementName));
-            if (enemy.getImmunities() == null) {
-                enemy.setImmunities(new ArrayList<EEnemyElement>(result));
-            } else {
-                enemy.getImmunities().addAll(result);
-            }
-            result.clear();
+            EEnemyElement element = elementMap.get(elementName);
+            enemy.getImmunities().add(element);
+            element.getImmuneEnemies().add(enemy);
         }
 
-        return enemy;
+        return enemyCrudRepository.save(enemy);
     }
 
     private List<EEnemyElement> buildElements(List<String> elements) {
@@ -448,9 +429,7 @@ public class H2Initializer implements ApplicationRunner {
 
         for (String name : elements) {
             EEnemyElement element = EEnemyElement.builder().name(name).build(); 
-            element.setWeakEnemies(new ArrayList<EEnemy>());
-            element.setResistEnemies(new ArrayList<EEnemy>());
-            element.setImmuneEnemies(new ArrayList<EEnemy>());
+            elementMap.put(element.getName(), element);
             
             result.add(element);
         }

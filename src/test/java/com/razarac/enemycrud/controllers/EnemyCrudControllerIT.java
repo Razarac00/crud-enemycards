@@ -106,4 +106,5 @@ public class EnemyCrudControllerIT {
     //     assertTrue(actual.contains("Poison"));
     //     assertTrue(actual.contains("Toxic"));
     // }
+    
 }
