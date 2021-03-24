@@ -89,21 +89,21 @@ public class EnemyCrudControllerIT {
         assertTrue(actual.contains("Gwyn Lord of Cinder"));
     }
 
-    @Test
-    public void getEnemy_ContainsElementInfo_WhenCalledByName() throws Exception {
-        // Arrange
-        String request = "/Nito";
+    // @Test
+    // public void getEnemy_ContainsElementInfo_WhenCalledByName() throws Exception {
+    //     // Arrange
+    //     String request = "/Nito";
 
-        // Act
-        url = url + request;
+    //     // Act
+    //     url = url + request;
 
-        // Assert
-        MvcResult result = mockMvc.perform(get(url)).andExpect(status().isOk()).andReturn();
-        String actual = result.getResponse().getContentAsString();
-        assertTrue(actual.contains("Nito"));
-        assertTrue(actual.contains("Fire"));
-        assertTrue(actual.contains("None"));
-        assertTrue(actual.contains("Poison"));
-        assertTrue(actual.contains("Toxic"));
-    }
+    //     // Assert
+    //     MvcResult result = mockMvc.perform(get(url)).andExpect(status().isOk()).andReturn();
+    //     String actual = result.getResponse().getContentAsString();
+    //     assertTrue(actual.contains("Nito"));
+    //     assertTrue(actual.contains("Fire"));
+    //     assertTrue(actual.contains("None"));
+    //     assertTrue(actual.contains("Poison"));
+    //     assertTrue(actual.contains("Toxic"));
+    // }
 }
