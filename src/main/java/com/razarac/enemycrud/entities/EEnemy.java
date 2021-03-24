@@ -1,5 +1,6 @@
 package com.razarac.enemycrud.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,28 +26,40 @@ public class EEnemy {
         cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
-        }, 
-        mappedBy = "weakEnemies")
-    @Column(name = "WEAKNESSES")
-    private List<EEnemyElement> weaknesses;
+        })
+    @JoinTable(
+        name = "ENEMYELEMENT_WEAK",
+        joinColumns = @JoinColumn(name = "ENEMY_ID"),
+        inverseJoinColumns = @JoinColumn(name = "ELEMENT_ID")
+    )
+    @Builder.Default
+    private List<EEnemyElement> weaknesses = new ArrayList<EEnemyElement>();
 
     @ManyToMany(fetch = FetchType.LAZY,
         cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
-        }, 
-        mappedBy = "resistEnemies") 
-    @Column(name = "RESISTANCES")
-    private List<EEnemyElement> resistances;
+        })
+    @JoinTable(
+        name = "ENEMYELEMENT_RESIST",
+        joinColumns = @JoinColumn(name = "ENEMY_ID"),
+        inverseJoinColumns = @JoinColumn(name = "ELEMENT_ID")
+    )
+    @Builder.Default
+    private List<EEnemyElement> resistances = new ArrayList<EEnemyElement>();
 
     @ManyToMany(fetch = FetchType.LAZY,
         cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
-        }, 
-        mappedBy = "immuneEnemies") 
-    @Column(name = "IMMUNITIES")
-    private List<EEnemyElement> immunities;
+        })
+    @JoinTable(
+        name = "ENEMYELEMENT_IMMUNE",
+        joinColumns = @JoinColumn(name = "ENEMY_ID"),
+        inverseJoinColumns = @JoinColumn(name = "ELEMENT_ID")
+    )
+    @Builder.Default
+    private List<EEnemyElement> immunities = new ArrayList<EEnemyElement>();
     
     @Column(name = "IMAGE", nullable = false)
     private String image;
