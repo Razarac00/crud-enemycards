@@ -196,4 +196,44 @@ public class EnemyCrudRepositoryIT {
         assertEquals(2, enemyCrudRepository.findAll().size());
     }
 
+    @Test
+    public void save_CorrectElements_WhenSavingEnemyAndElementsAlreadySaved() {
+        // Arrange
+        EEnemyElement element1 = EEnemyElement.builder().name("None").build();
+        EEnemyElement element2 = EEnemyElement.builder().name("Lightning").build();
+        EEnemyElement element3 = EEnemyElement.builder().name("Fire").build();
+
+        elementCrudRepository.saveAll(List.of(element1, element2, element3));
+
+        String name = "Burnt Ivory King";
+        String image = "https://darksouls2.wiki.fextralife.com/file/Dark-Souls-2/burnt_ivory_king.png";
+        String description = "Watch out for his thrust attack and magic extendo blade.";
+
+        EEnemy enemy = EEnemy.builder().name(name).description(description).image(image).build();
+
+        element1 = elementCrudRepository.getOne(element1.getId());
+        element2 = elementCrudRepository.getOne(element2.getId());
+        element3 = elementCrudRepository.getOne(element3.getId());
+
+        // Act
+        enemy.getImmunities().add(element1);
+        enemy.getWeaknesses().add(element2);
+        enemy.getResistances().add(element3);
+
+        element1.getImmuneEnemies().add(enemy);
+        element2.getWeakEnemies().add(enemy);
+        element3.getImmuneEnemies().add(enemy);
+
+        var actual = enemyCrudRepository.save(enemy);
+
+        // Assert
+        assertEquals(enemy, actual);
+        assertEquals(enemy.getWeaknesses(), actual.getWeaknesses());
+        assertEquals(element1, actual.getImmunities().get(0));
+
+        var received = enemyCrudRepository.getOne(actual.getId());
+        assertEquals(element2, received.getWeaknesses().get(0));
+        assertEquals(element3, received.getResistances().get(0));
+    }
+
 }
