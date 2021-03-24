@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 // import static org.junit.jupiter.api.Assertions.assertNotEquals;
 // import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -143,6 +144,56 @@ public class EnemyCrudRepositoryIT {
         var received = enemyCrudRepository.getOne(actual.getId());
         assertEquals(element2, received.getWeaknesses().get(0));
         assertEquals(element3, received.getResistances().get(0));
+    }
+
+    @Test
+    public void save_MultipleEnemiesWithMultipleElements_WhenCalled() {
+        // Arrange
+        EEnemyElement element1 = EEnemyElement.builder().name("None").build();
+        EEnemyElement element2 = EEnemyElement.builder().name("Lightning").build();
+        EEnemyElement element3 = EEnemyElement.builder().name("Fire").build();
+
+        String name = "Burnt Ivory King";
+        String image = "https://darksouls2.wiki.fextralife.com/file/Dark-Souls-2/burnt_ivory_king.png";
+        String description = "Watch out for his thrust attack and magic extendo blade.";
+
+        EEnemy enemy1 = EEnemy.builder().name(name).description(description).image(image).build();
+
+        name = "Aava";
+        image = "https://darksouls2.wiki.fextralife.com/file/Dark-Souls-2/aava.png";
+        description = "Hope you have the priestess eye";
+
+        EEnemy enemy2 = EEnemy.builder().name(name).description(description).image(image).build();
+        // Act
+        enemy1.getImmunities().add(element1);
+        enemy1.getWeaknesses().add(element2);
+        enemy1.getResistances().add(element3);
+
+        element1.getImmuneEnemies().add(enemy1);
+        element2.getWeakEnemies().add(enemy1);
+        element3.getImmuneEnemies().add(enemy1);
+
+        var actual1 = enemyCrudRepository.save(enemy1);
+
+        enemy2.getImmunities().add(element1);
+        enemy2.getResistances().add(element1);
+        enemy2.getWeaknesses().add(element2);
+        enemy2.getWeaknesses().add(element3);
+
+        element1.getImmuneEnemies().add(enemy2);
+        element1.getResistEnemies().add(enemy2);
+        element2.getWeakEnemies().add(enemy2);
+        element3.getWeakEnemies().add(enemy2);
+
+        var actual2 = enemyCrudRepository.save(enemy2);
+
+        // Assert
+        assertFalse(actual1 == actual2);
+        assertEquals(element1, actual1.getImmunities().get(0));
+        assertEquals(element1, actual2.getResistances().get(0));
+        assertTrue(actual2.getWeaknesses().contains(element2) && actual2.getWeaknesses().contains(element3));
+
+        assertEquals(2, enemyCrudRepository.findAll().size());
     }
 
 }
