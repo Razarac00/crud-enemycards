@@ -436,5 +436,15 @@ public class H2Initializer implements ApplicationRunner {
 
         return result;
     }
+
+    private List<EEnemyElement> getElementsFromMap(List<String> elements) {
+        List<EEnemyElement> result = new ArrayList<EEnemyElement>();
+
+        for (String name : elements) {
+            result.add(elementMap.get(name));
+        }
+
+        return result;
+    }
     
 }
