@@ -17,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 @Component
@@ -28,7 +29,7 @@ public class EnemyServiceImpl implements EnemyService {
     @Autowired
     private ElementService elementService;
 
-    @Override
+    @Override @Transactional
     public PageModel getEnemies(String searchName, Integer pageSize, Integer pageNumber) {
         PageModel pageModel = new PageModel();
 
@@ -51,7 +52,7 @@ public class EnemyServiceImpl implements EnemyService {
         return pageModel;
     }
 
-    @Override
+    @Override @Transactional
     public Enemy getEnemy(String name) {
         // Expecting a full name so there SHOULD only be one
         name = name.replace("-", " ");
@@ -65,7 +66,7 @@ public class EnemyServiceImpl implements EnemyService {
         return convertEEnemy(enemies.get(0));
     }
 
-    @Override
+    @Override @Transactional
     public Enemy addEnemy(Enemy enemy) {
         String name = enemy.getName();
 
@@ -93,7 +94,7 @@ public class EnemyServiceImpl implements EnemyService {
         return addEnemy(enemy);
     }
 
-    @Override
+    @Override @Transactional
     public Enemy updateEnemy(Long id, Enemy enemy) {
         if (!enemyCrudRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Enemy does not exist with id " + id);
