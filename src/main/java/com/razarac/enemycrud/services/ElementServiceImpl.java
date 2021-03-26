@@ -10,6 +10,7 @@ import com.razarac.enemycrud.repository.ElementCrudRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 @Component
@@ -18,17 +19,17 @@ public class ElementServiceImpl implements ElementService {
     @Autowired
     private ElementCrudRepository elementCrudRepository;
 
-    @Override
+    @Override @Transactional
     public List<EnemyElement> getElements() {
         return convertEElements(elementCrudRepository.findAll());
     }
 
-    @Override
+    @Override @Transactional
     public EnemyElement getElement(String name) {
         return convertEElement(elementCrudRepository.findByName(name).get(0));
     }
 
-    @Override
+    @Override @Transactional
     public EEnemyElement createEElement(String name) {
         // Check if the element name exists, else create it
         if (elementExists(name)) {
@@ -39,7 +40,7 @@ public class ElementServiceImpl implements ElementService {
         return elementCrudRepository.save(element);
     }
 
-    @Override
+    @Override @Transactional
     public List<EEnemyElement> createEElements(List<String> elementNames) {
         for (String name : elementNames) {
             if (elementExists(name)) {
@@ -51,7 +52,7 @@ public class ElementServiceImpl implements ElementService {
         return elementCrudRepository.saveAll(elements);
     }
 
-    @Override
+    @Override @Transactional
     public EEnemyElement createEElementNoSave(String name) {
         // Avoid saving to repo so that enemy saving will take care of it
         if (elementExists(name)) {
@@ -61,7 +62,7 @@ public class ElementServiceImpl implements ElementService {
         return element;
     }
 
-    @Override
+    @Override @Transactional
     public EEnemyElement getEElement(String name) {
         if (!elementExists(name)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Element " + name + " does not exist");
@@ -69,7 +70,7 @@ public class ElementServiceImpl implements ElementService {
         return elementCrudRepository.findByName(name).get(0);
     }
 
-    @Override
+    @Override @Transactional
     public EEnemyElement updateEElement(Long id, EEnemyElement eEnemyElement) {
         if (!elementCrudRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Element not found with id " + id);
