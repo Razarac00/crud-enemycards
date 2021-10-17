@@ -22,6 +22,9 @@ server:
   port: 8080
   error:
     include-message: always
+logging:
+  level:
+    web: DEBUG
 
 ---
 # h2 connection
