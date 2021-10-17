@@ -46,9 +46,9 @@ public class H2Initializer implements ApplicationRunner {
         String name = "";
         String image = "";
         String description = "";
-        List<String> weak = new ArrayList<String>();
-        List<String> resist = new ArrayList<String>();
-        List<String> immune = new ArrayList<String>();
+        List<String> weak;
+        List<String> resist;
+        List<String> immune;
         EEnemy enemy;
 
         // ------------------------------------------------------ //

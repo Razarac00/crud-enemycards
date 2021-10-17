@@ -27,21 +27,22 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'io.springfox:springfox-swagger2:3.0.0'
+	implementation 'org.projectlombok:lombok'
 
 	compileOnly 'org.projectlombok:lombok'
-	implementation("org.projectlombok:lombok")
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.h2database:h2'
 
-	annotationProcessor("javax.annotation:javax.annotation-api:${javaxVersion}")
+	annotationProcessor "javax.annotation:javax.annotation-api:${javaxVersion}"
 	annotationProcessor 'org.projectlombok:lombok'
 	
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-	// Lombok
-	testImplementation("org.projectlombok:lombok")
-	testAnnotationProcessor("org.projectlombok:lombok")
-	testCompileOnly("org.projectlombok:lombok")
+	// Lombok Test
+	testImplementation "org.projectlombok:lombok"
+	testAnnotationProcessor "org.projectlombok:lombok" 
 }
 
 test {
