@@ -18,6 +18,9 @@ spring:
 # Anything that goes here is made specifically for local's profile.
 spring:
   profiles: local, default
+  output:
+    ansi:
+      enabled: ALWAYS
 server:
   port: 8080
   error:
@@ -25,6 +28,7 @@ server:
 logging:
   level:
     web: DEBUG
+
 
 ---
 # h2 connection
