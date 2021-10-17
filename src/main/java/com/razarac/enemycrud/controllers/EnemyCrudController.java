@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 
+import static com.razarac.enemycrud.utils.Constants.JSONCHARSET;
+
 @RestController
 @Api(tags = "Enemy Operations - fetch one or more enemies")
 public class EnemyCrudController {
@@ -41,7 +43,7 @@ public class EnemyCrudController {
             @ApiResponse(code = HttpServletResponse.SC_FORBIDDEN, message = "Invalid token, expired or tampered"),
             @ApiResponse(code = HttpServletResponse.SC_UNAUTHORIZED, message = "Apparently not your request")
     })
-    @GetMapping("/enemies")
+    @GetMapping(value = "/enemies", produces = JSONCHARSET)
     public PageModel getEnemies(
         @RequestParam(value = "search", required = false) String search, 
         @RequestParam("pageNumber") Integer pageNumber, 
@@ -69,7 +71,7 @@ public class EnemyCrudController {
             @ApiResponse(code = HttpServletResponse.SC_FORBIDDEN, message = "Invalid token, expired or tampered"),
             @ApiResponse(code = HttpServletResponse.SC_UNAUTHORIZED, message = "Apparently not your request")
     })
-    @GetMapping("/enemies/{name}")
+    @GetMapping(value = "/enemies/{name}", produces = JSONCHARSET)
     public Enemy getEnemy(@PathVariable("name") String name) {
 
         return enemyService.getEnemy(name);
