@@ -8,6 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ import static com.razarac.enemycrud.utils.Constants.JSONCHARSET;
 
 @RestController
 @Api(tags = "Enemy Operations - fetch one or more enemies")
+@Slf4j
 public class EnemyCrudController {
 
     @Autowired
@@ -52,6 +54,12 @@ public class EnemyCrudController {
         if (search == null) {
             search = "";
         }
+        log.info(
+                "EnemyCrudController >> getEnemies >> search: {}, pageNumber: {}, pageSize: {}",
+                search,
+                pageNumber,
+                pageSize
+        );
         return enemyService.getEnemies(search, pageSize, pageNumber);
     }
 
@@ -73,7 +81,10 @@ public class EnemyCrudController {
     })
     @GetMapping(value = "/enemies/{name}", produces = JSONCHARSET)
     public Enemy getEnemy(@PathVariable("name") String name) {
-
+        log.info(
+                "EnemyCrudController >> getEnemy >> name {}",
+                name
+        );
         return enemyService.getEnemy(name);
     }
 }
