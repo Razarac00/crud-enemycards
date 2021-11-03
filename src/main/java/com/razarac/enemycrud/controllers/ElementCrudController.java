@@ -27,13 +27,13 @@ public class ElementCrudController {
     private ElementService elementService;
 
     /**
-     * Delete element with this id
+     * Delete element with this id everywhere
      * @param id the id of the element
      * @return empty body with a 204 response
      */
     @ApiOperation(
             value = "Delete an element",
-            notes = "Deletes a specific element with this id. The effect cascades to enemies using this element.",
+            notes = "Deletes a specific element with this id. The effect cascades to all enemies using this element.",
             response = ResponseEntity.class
     )
     @ApiResponses(value = {
@@ -44,6 +44,11 @@ public class ElementCrudController {
     })
     @DeleteMapping(value = "/delete/{id}")
     public ResponseEntity<Void> deleteElement(@PathVariable Long id) {
-        return ResponseEntity.noContent().build();
+        EnemyElement element = elementService.deleteElementById(id);
+
+        if (element != null) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 }
