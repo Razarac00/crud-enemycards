@@ -2,6 +2,7 @@ package com.razarac.enemycrud.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.razarac.enemycrud.entities.*;
 import com.razarac.enemycrud.models.*;
@@ -105,12 +106,15 @@ public class ElementServiceImpl implements ElementService {
 
     @Override @Transactional
     public EnemyElement deleteElementById(Long id) {
-        if (!elementCrudRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(ELEMENT_NF_WITHID, id));
+        if (id != null) {
+            EEnemyElement element = elementCrudRepository
+                    .findById(id)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(ELEMENT_NF_WITHID, id)));
+            elementCrudRepository.delete(element);
+            return convertEElement(element);
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ELEMENT_IS_NULL);
         }
-        EnemyElement element = convertEElement(elementCrudRepository.findById(id).get());
-        elementCrudRepository.deleteById(id);
-        return element;
     }
 
     /////////////// HELPERS ///////////////
