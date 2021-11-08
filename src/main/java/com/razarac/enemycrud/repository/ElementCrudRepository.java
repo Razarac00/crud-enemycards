@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ElementCrudRepository extends JpaRepository<EEnemyElement, Long>{
     List<EEnemyElement> findByName(String elementName);
+
 }

@@ -24,29 +24,32 @@ public class EEnemyElement {
     @ManyToMany(fetch = FetchType.LAZY,
         cascade = {
             CascadeType.PERSIST,
-            CascadeType.MERGE
+            CascadeType.MERGE,
+            CascadeType.REMOVE
         },//)
         mappedBy = "weaknesses") 
     @Builder.Default
-    private List<EEnemy> weakEnemies = new ArrayList<EEnemy>();
+    private List<EEnemy> weakEnemies = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY,
         cascade = {
             CascadeType.PERSIST,
-            CascadeType.MERGE
+            CascadeType.MERGE,
+            CascadeType.REMOVE
         },//)
         mappedBy = "resistances") 
     @Builder.Default
-    private List<EEnemy> resistEnemies = new ArrayList<EEnemy>();   
+    private List<EEnemy> resistEnemies = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY,
         cascade = {
             CascadeType.PERSIST,
-            CascadeType.MERGE
+            CascadeType.MERGE,
+            CascadeType.REMOVE
         },//)
         mappedBy = "immunities") 
     @Builder.Default
-    private List<EEnemy> immuneEnemies = new ArrayList<EEnemy>();
+    private List<EEnemy> immuneEnemies = new ArrayList<>();
 
     public EEnemyElement() {}
 

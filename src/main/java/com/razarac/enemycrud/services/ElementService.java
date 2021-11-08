@@ -23,5 +23,6 @@ public interface ElementService {
     List<EEnemyElement> createEElements(List<String> elementNames);
 
     EEnemyElement updateEElement(Long id, EEnemyElement eEnemyElement);
-    
+
+    EnemyElement deleteElementById(Long id);
 }

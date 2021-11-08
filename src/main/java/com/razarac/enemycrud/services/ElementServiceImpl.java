@@ -2,6 +2,7 @@ package com.razarac.enemycrud.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.razarac.enemycrud.entities.*;
 import com.razarac.enemycrud.models.*;
@@ -12,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+
+import static com.razarac.enemycrud.utils.Constants.*;
 
 @Component
 public class ElementServiceImpl implements ElementService {
@@ -32,8 +35,8 @@ public class ElementServiceImpl implements ElementService {
     @Override @Transactional
     public EEnemyElement createEElement(String name) {
         // Check if the element name exists, else create it
-        if (elementExists(name)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Element " + name + " already exists");
+        if (Boolean.TRUE.equals(elementExists(name))) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(ELEMENT_BR_EXISTS, name));
         }
         EEnemyElement element = buildElement(name);
         
@@ -43,8 +46,8 @@ public class ElementServiceImpl implements ElementService {
     @Override @Transactional
     public List<EEnemyElement> createEElements(List<String> elementNames) {
         for (String name : elementNames) {
-            if (elementExists(name)) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Element " + name + " already exists");
+            if (Boolean.TRUE.equals(elementExists(name))) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(ELEMENT_BR_EXISTS, name));
             }            
         }
         List<EEnemyElement> elements = buildElements(elementNames);
@@ -55,17 +58,16 @@ public class ElementServiceImpl implements ElementService {
     @Override @Transactional
     public EEnemyElement createEElementNoSave(String name) {
         // Avoid saving to repo so that enemy saving will take care of it
-        if (elementExists(name)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Element " + name + " already exists");
+        if (Boolean.TRUE.equals(elementExists(name))) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(ELEMENT_BR_EXISTS, name));
         }
-        EEnemyElement element = buildElement(name);
-        return element;
+        return buildElement(name);
     }
 
     @Override @Transactional
     public EEnemyElement getEElement(String name) {
-        if (!elementExists(name)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Element " + name + " does not exist");
+        if (Boolean.FALSE.equals(elementExists(name))) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(ELEMENT_BR_NOTEXIST, name));
         }
         return elementCrudRepository.findByName(name).get(0);
     }
@@ -73,7 +75,7 @@ public class ElementServiceImpl implements ElementService {
     @Override @Transactional
     public EEnemyElement updateEElement(Long id, EEnemyElement eEnemyElement) {
         if (!elementCrudRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Element not found with id " + id);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(ELEMENT_NF_WITHID, id));
         }
         EEnemyElement original = elementCrudRepository.getOne(id);
         String name = eEnemyElement.getName();
@@ -102,14 +104,27 @@ public class ElementServiceImpl implements ElementService {
         return original;
     }
 
+    @Override @Transactional
+    public EnemyElement deleteElementById(Long id) {
+        if (id != null) {
+            EEnemyElement element = elementCrudRepository
+                    .findById(id)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(ELEMENT_NF_WITHID, id)));
+            elementCrudRepository.delete(element);
+            return convertEElement(element);
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ELEMENT_IS_NULL);
+        }
+    }
+
     /////////////// HELPERS ///////////////
 
     private Boolean elementExists(String name) {
-        return elementCrudRepository.findByName(name).size() > 0;
+        return !elementCrudRepository.findByName(name).isEmpty();
     }
 
     private List<EEnemyElement> buildElements(List<String> elements) {
-        List<EEnemyElement> result = new ArrayList<EEnemyElement>(); 
+        List<EEnemyElement> result = new ArrayList<>();
 
         for (String name : elements) {
             EEnemyElement element = buildElement(name);
@@ -121,13 +136,11 @@ public class ElementServiceImpl implements ElementService {
     }
 
     private EEnemyElement buildElement(String name) {
-        EEnemyElement element = EEnemyElement.builder().name(name).build(); 
-
-        return element;
+        return EEnemyElement.builder().name(name).build();
     }
 
     private List<EnemyElement> convertEElements(List<EEnemyElement> eElements) {
-        List<EnemyElement> result = new ArrayList<EnemyElement>();
+        List<EnemyElement> result = new ArrayList<>();
 
         for (EEnemyElement eElement : eElements) {
             result.add(convertEElement(eElement));
@@ -136,8 +149,7 @@ public class ElementServiceImpl implements ElementService {
     }
 
     private EnemyElement convertEElement(EEnemyElement eElement) {
-        EnemyElement element = EnemyElement.builder().name(eElement.getName()).id(eElement.getId()).build();
-        return element;
+        return EnemyElement.builder().name(eElement.getName()).id(eElement.getId()).build();
     }
     
 }
