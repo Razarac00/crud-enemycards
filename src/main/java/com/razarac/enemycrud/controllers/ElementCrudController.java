@@ -39,16 +39,24 @@ public class ElementCrudController {
     @ApiResponses(value = {
             @ApiResponse(code = HttpServletResponse.SC_NO_CONTENT, message = "Element deleted successfully"),
             @ApiResponse(code = HttpServletResponse.SC_BAD_REQUEST, message = "Malformed request"),
+            @ApiResponse(code = HttpServletResponse.SC_NOT_FOUND, message = "No such element"),
             @ApiResponse(code = HttpServletResponse.SC_FORBIDDEN, message = "Invalid token, expired or tampered"),
             @ApiResponse(code = HttpServletResponse.SC_UNAUTHORIZED, message = "Apparently not your request")
     })
     @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<Void> deleteElement(@PathVariable Long id) {
-        EnemyElement element = elementService.deleteElementById(id);
+    public ResponseEntity<String> deleteElement(@PathVariable String id) {
 
-        if (element != null) {
-            return ResponseEntity.noContent().build();
+        try {
+            final Long elementId = Long.valueOf(id);
+            EnemyElement element = elementService.deleteElementById(elementId);
+
+            if (element != null) {
+                return ResponseEntity.status(HttpServletResponse.SC_NO_CONTENT).body("Element deleted successfully");
+            }
+        } catch (NumberFormatException exception) {
+            return ResponseEntity.badRequest().body("Malformed request");
         }
-        return ResponseEntity.notFound().build();
+
+        return ResponseEntity.status(HttpServletResponse.SC_NOT_FOUND).body("No such element");
     }
 }

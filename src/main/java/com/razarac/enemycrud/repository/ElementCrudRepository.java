@@ -11,5 +11,4 @@ import org.springframework.stereotype.Repository;
 public interface ElementCrudRepository extends JpaRepository<EEnemyElement, Long>{
     List<EEnemyElement> findByName(String elementName);
 
-    EEnemyElement deleteByName(String elementName);
 }
