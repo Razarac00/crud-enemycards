@@ -22,6 +22,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import static com.razarac.enemycrud.utils.Constants.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(SpringExtension.class)
 class ElementServiceImplTests {
@@ -191,6 +193,7 @@ class ElementServiceImplTests {
         // Assert
         assertEquals(element.getName(), result.getName());
         assertEquals(element.getId(), result.getId());
+        verify(elementCrudRepository, times(1)).delete(element);
     }
     
 }
