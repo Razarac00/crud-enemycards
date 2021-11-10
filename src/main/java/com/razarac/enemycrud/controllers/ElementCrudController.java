@@ -1,7 +1,6 @@
 package com.razarac.enemycrud.controllers;
 
 import com.razarac.enemycrud.models.EnemyElement;
-import com.razarac.enemycrud.models.PageModel;
 import com.razarac.enemycrud.services.ElementService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -10,16 +9,16 @@ import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+
+import static com.razarac.enemycrud.utils.Constants.JSONCHARSET;
 
 @RestController
 @RequestMapping("elements")
-@Api(tags = "Element Operations - tbd")
+@Api(tags = "Element Operations - RESTful API for elements relevant to Enemies")
 @Slf4j
 public class ElementCrudController {
 
@@ -58,5 +57,24 @@ public class ElementCrudController {
         }
 
         return ResponseEntity.status(HttpServletResponse.SC_NOT_FOUND).body("No such element");
+    }
+
+    /**
+     * Get a list of all elements across all enemies.
+     * @return a list of all elements
+     */
+    @ApiOperation(
+            value = "Get all elements",
+            notes = "Get a list of all elements, regardless of whether they have any relation to enemies",
+            response = ResponseEntity.class
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = HttpServletResponse.SC_OK, message = "Elements fetched successfully"),
+            @ApiResponse(code = HttpServletResponse.SC_FORBIDDEN, message = "Invalid token, expired or tampered"),
+            @ApiResponse(code = HttpServletResponse.SC_UNAUTHORIZED, message = "Apparently not your request")
+    })
+    @GetMapping(value = "/all", produces = JSONCHARSET)
+    public ResponseEntity<List<EnemyElement>> getElements() {
+        return ResponseEntity.ok(elementService.getElements());
     }
 }

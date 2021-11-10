@@ -62,4 +62,16 @@ class ElementCrudControllerIT {
         // Assert
         mockMvc.perform(delete(url)).andExpect(status().isBadRequest());
     }
+
+    @Test
+    void getElements_Returns200_OnSuccess() throws Exception {
+        // Arrange
+        String request = "/all";
+
+        // Act
+        url = url + request;
+
+        // Assert
+        mockMvc.perform(get(url)).andExpect(status().isOk());
+    }
 }
