@@ -44,11 +44,21 @@ public class ElementServiceImpl implements ElementService {
     }
 
     @Override @Transactional
+    public EnemyElement createElement(EnemyElement enemyElement) {
+        if (Boolean.TRUE.equals(elementExists(enemyElement.getName()))) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, String.format(ELEMENT_BR_EXISTS, enemyElement.getName()));
+        } else if (Boolean.TRUE.equals(elementExists(enemyElement.getId()))) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, String.format(ELEMENT_BR_EXISTS_WITHID, enemyElement.getId()));
+        }
+        return convertEElement(elementCrudRepository.save(buildElement(enemyElement)));
+    }
+
+    @Override @Transactional
     public List<EEnemyElement> createEElements(List<String> elementNames) {
         for (String name : elementNames) {
             if (Boolean.TRUE.equals(elementExists(name))) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(ELEMENT_BR_EXISTS, name));
-            }            
+            }
         }
         List<EEnemyElement> elements = buildElements(elementNames);
 
@@ -57,7 +67,7 @@ public class ElementServiceImpl implements ElementService {
 
     @Override @Transactional
     public EEnemyElement createEElementNoSave(String name) {
-        // Avoid saving to repo so that enemy saving will take care of it
+        // Avoid saving to repo so that saving via enemy building will take care of it
         if (Boolean.TRUE.equals(elementExists(name))) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(ELEMENT_BR_EXISTS, name));
         }
@@ -123,6 +133,10 @@ public class ElementServiceImpl implements ElementService {
         return !elementCrudRepository.findByName(name).isEmpty();
     }
 
+    private Boolean elementExists(Long id) {
+        return elementCrudRepository.findById(id).isPresent();
+    }
+
     private List<EEnemyElement> buildElements(List<String> elements) {
         List<EEnemyElement> result = new ArrayList<>();
 
@@ -137,6 +151,14 @@ public class ElementServiceImpl implements ElementService {
 
     private EEnemyElement buildElement(String name) {
         return EEnemyElement.builder().name(name).build();
+    }
+
+    private EEnemyElement buildElement(EnemyElement enemyElement) {
+        return EEnemyElement
+                .builder()
+                .id(enemyElement.getId())
+                .name(enemyElement.getName())
+                .build();
     }
 
     private List<EnemyElement> convertEElements(List<EEnemyElement> eElements) {

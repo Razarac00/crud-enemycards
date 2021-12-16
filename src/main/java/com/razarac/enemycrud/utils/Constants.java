@@ -7,6 +7,7 @@ public final class Constants {
 
     public static final String ELEMENT_BR_NOTEXIST = "Element %s does not exist";
     public static final String ELEMENT_BR_EXISTS = "Element %s already exists";
+    public static final String ELEMENT_BR_EXISTS_WITHID = "Element id %s already exists";
     public static final String ELEMENT_NF_WITHID = "Element not found with id %s";
     public static final String ELEMENT_IS_NULL = "Element is null!";
 

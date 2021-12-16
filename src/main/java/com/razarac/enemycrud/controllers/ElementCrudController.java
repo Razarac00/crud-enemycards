@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -78,8 +79,24 @@ public class ElementCrudController {
         return ResponseEntity.ok(elementService.getElements());
     }
 
-    @PostMapping(value = "/")
-    public ResponseEntity<EnemyElement> createElement() {
-        return ResponseEntity.status(HttpServletResponse.SC_CREATED).body(elementService.createEElement());
+    /**
+     * Create a new element.
+     * @param enemyElement the new element to be created
+     * @return the element created
+     */
+    @ApiOperation(
+            value = "Create an element",
+            notes = "Create an element that does not exist already",
+            response = ResponseEntity.class
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = HttpServletResponse.SC_CREATED, message = "Element created successfully"),
+            @ApiResponse(code = HttpServletResponse.SC_CONFLICT, message = "Existing Element conflict"),
+            @ApiResponse(code = HttpServletResponse.SC_FORBIDDEN, message = "Invalid token, expired or tampered"),
+            @ApiResponse(code = HttpServletResponse.SC_UNAUTHORIZED, message = "Apparently not your request")
+    })
+    @PostMapping(value = "", produces = JSONCHARSET)
+    public ResponseEntity<EnemyElement> createElement(@RequestBody @Validated EnemyElement enemyElement) {
+        return ResponseEntity.status(HttpServletResponse.SC_CREATED).body(elementService.createElement(enemyElement));
     }
 }

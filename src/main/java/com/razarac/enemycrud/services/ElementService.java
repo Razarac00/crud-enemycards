@@ -16,6 +16,8 @@ public interface ElementService {
 
     EEnemyElement getEElement(String name);
 
+    EnemyElement createElement(EnemyElement enemyElement);
+
     EEnemyElement createEElement(String name);
 
     EEnemyElement createEElementNoSave(String name);
