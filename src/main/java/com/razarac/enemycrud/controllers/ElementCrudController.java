@@ -77,4 +77,9 @@ public class ElementCrudController {
     public ResponseEntity<List<EnemyElement>> getElements() {
         return ResponseEntity.ok(elementService.getElements());
     }
+
+    @PostMapping(value = "/")
+    public ResponseEntity<EnemyElement> createElement() {
+        return ResponseEntity.status(HttpServletResponse.SC_CREATED).body(elementService.createEElement());
+    }
 }
