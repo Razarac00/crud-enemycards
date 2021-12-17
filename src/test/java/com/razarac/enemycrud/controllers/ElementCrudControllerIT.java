@@ -6,11 +6,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -73,5 +73,19 @@ class ElementCrudControllerIT {
 
         // Assert
         mockMvc.perform(get(url)).andExpect(status().isOk());
+    }
+
+    @Test
+    void createElement_Returns201_OnSuccess() throws Exception {
+        // Arrange
+        String request = "";
+        // Act
+        url = url + request;
+        // Assert
+        mockMvc.perform(post(url)
+                .content("{\"id\":\"1000L\", \"name\":\"Lightning\"}")
+                        .contentType(MediaType.APPLICATION_JSON)
+//                .accept(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isCreated());
     }
 }

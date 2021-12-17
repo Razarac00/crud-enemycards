@@ -47,9 +47,11 @@ public class ElementServiceImpl implements ElementService {
     public EnemyElement createElement(EnemyElement enemyElement) {
         if (Boolean.TRUE.equals(elementExists(enemyElement.getName()))) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, String.format(ELEMENT_BR_EXISTS, enemyElement.getName()));
+
         } else if (Boolean.TRUE.equals(elementExists(enemyElement.getId()))) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, String.format(ELEMENT_BR_EXISTS_WITHID, enemyElement.getId()));
         }
+
         return convertEElement(elementCrudRepository.save(buildElement(enemyElement)));
     }
 
