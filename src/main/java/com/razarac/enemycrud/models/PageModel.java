@@ -35,4 +35,18 @@ public class PageModel {
 
     public PageModel() {
     }
+
+    @Override
+    public String toString() {
+        return "PageModel{" +
+                "content=" + content +
+                ", pageTotal=" + pageTotal +
+                ", pageSize=" + pageSize +
+                ", pageNumber=" + pageNumber +
+                ", enemyTotal=" + enemyTotal +
+                ", enemyOffset=" + enemyOffset +
+                ", hasNext=" + hasNext +
+                ", hasPrevious=" + hasPrevious +
+                '}';
+    }
 }

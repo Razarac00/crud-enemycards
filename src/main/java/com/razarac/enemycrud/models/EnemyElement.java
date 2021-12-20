@@ -16,4 +16,11 @@ public class EnemyElement {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return "EnemyElement{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

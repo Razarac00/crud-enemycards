@@ -33,4 +33,17 @@ public class Enemy {
         this.resistances = resistances;
         this.immunities = immunities;
     }
+
+    @Override
+    public String toString() {
+        return "Enemy{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", weaknesses=" + weaknesses +
+                ", resistances=" + resistances +
+                ", immunities=" + immunities +
+                ", image='" + image + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }
