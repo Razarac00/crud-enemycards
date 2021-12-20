@@ -2,18 +2,27 @@ package com.razarac.enemycrud.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
-@NoArgsConstructor
+@Slf4j
 public class JSONMapper {
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
-    public String serialize(final Object obj) {
+    public JSONMapper() {
+        objectMapper = new ObjectMapper();
+    }
+
+    public String serialize(Object obj) {
         try {
             return objectMapper.writeValueAsString(obj);
         } catch (JsonProcessingException e) {
+            log.debug("Serialize failed for " + obj.toString() + " with message " + e.getMessage());
+
             e.printStackTrace();
-            return null;
+            return "";
+        } catch (NullPointerException e){
+            log.debug("Serialize failed for null object with message " + e.getMessage());
+            return "";
         }
     }
 
