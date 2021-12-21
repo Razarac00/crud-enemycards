@@ -15,7 +15,7 @@ import lombok.Setter;
 @Getter @Setter @Builder
 public class EEnemyElement {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
     @Column(name = "NAME", nullable = false, unique = true)

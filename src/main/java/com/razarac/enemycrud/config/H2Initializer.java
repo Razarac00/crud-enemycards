@@ -389,10 +389,10 @@ public class H2Initializer implements ApplicationRunner {
     }
 
     private List<EEnemyElement> buildElements(List<String> elements) {
-        List<EEnemyElement> result = new ArrayList<EEnemyElement>(); 
+        List<EEnemyElement> result = new ArrayList<>();
 
         for (String name : elements) {
-            EEnemyElement element = EEnemyElement.builder().name(name).build(); 
+            EEnemyElement element = EEnemyElement.builder().name(name).build();
             elementMap.put(element.getName(), element);
             
             result.add(element);
