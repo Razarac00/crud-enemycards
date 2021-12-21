@@ -8,6 +8,7 @@ import com.razarac.enemycrud.entities.*;
 import com.razarac.enemycrud.models.*;
 import com.razarac.enemycrud.repository.ElementCrudRepository;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 import static com.razarac.enemycrud.utils.Constants.*;
 
 @Component
+@Slf4j
 public class ElementServiceImpl implements ElementService {
 
     @Autowired
@@ -51,7 +53,7 @@ public class ElementServiceImpl implements ElementService {
         } else if (Boolean.TRUE.equals(elementExists(enemyElement.getId()))) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, String.format(ELEMENT_BR_EXISTS_WITHID, enemyElement.getId()));
         }
-
+        log.debug(">>> Element is: " + enemyElement);
         return convertEElement(elementCrudRepository.save(buildElement(enemyElement)));
     }
 

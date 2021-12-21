@@ -11,6 +11,8 @@ public class EnemyElement {
     
     private String name;
 
+    public EnemyElement() {}
+
     public EnemyElement(Long id, String name) {
         this.id = id;
         this.name = name;

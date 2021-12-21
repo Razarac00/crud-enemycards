@@ -83,9 +83,9 @@ class ElementCrudControllerIT {
         url = url + request;
         // Assert
         mockMvc.perform(post(url)
-                .content("{\"id\":\"1000L\", \"name\":\"Lightning\"}")
-                        .contentType(MediaType.APPLICATION_JSON)
-//                .accept(MediaType.APPLICATION_JSON)
+                .content("{\"id\":1000, \"name\":\"Something Different\"}")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
         ).andExpect(status().isCreated());
     }
 }

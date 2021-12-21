@@ -23,6 +23,8 @@ public class Enemy {
     
     private String description;
 
+    public Enemy() {}
+
     public Enemy(Long id, String name, List<EnemyElement> weaknesses, List<EnemyElement> resistances, List<EnemyElement> immunities, String image, String description) {
         this.id = id;
         this.name = name;
