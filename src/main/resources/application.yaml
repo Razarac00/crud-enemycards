@@ -6,18 +6,24 @@ spring:
 ---
 # Anything that goes here is made specifically for dev's profile.
 spring:
-  profiles: dev
+  config:
+    activate:
+      on-profile: dev
 
 ---
 # Anything that goes here is made specifically for cloud's profile.
 # Cloud is the default profile that Google Cloud Foundry makes your application use if you do not override it.
 spring:
-  profiles: cloud
+  config:
+    activate:
+      on-profile: cloud
 
 ---
 # Anything that goes here is made specifically for local's profile.
 spring:
-  profiles: local, default
+  profiles:
+    active:
+      local
   output:
     ansi:
       enabled: ALWAYS
@@ -28,7 +34,10 @@ server:
 logging:
   level:
     web: DEBUG
-
+app:
+  api:
+    swagger:
+      enable: true
 
 ---
 # h2 connection

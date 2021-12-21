@@ -10,3 +10,4 @@ A crud web service to handle the data for ds1, ds2, ds3 enemies. Data is passed 
 
 ## info
 [Swagger API](http://localhost:8080/swagger-ui.html)
+[Api Docs](http://localhost:8080/v2/api-docs)

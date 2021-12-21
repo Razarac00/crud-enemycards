@@ -39,7 +39,7 @@ dependencies {
 	implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
 
 	compileOnly "org.projectlombok:lombok:${lombokVersion}"
-	developmentOnly "org.springframework.boot:spring-boot-devtools:${springBootVersion}"
+	developmentOnly "org.springframework.boot:spring-boot-devtools"
 	runtimeOnly "com.h2database:h2:2.0.202"
 	runtimeOnly "io.springfox:springfox-swagger-ui:3.0.0"
 
